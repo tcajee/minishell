@@ -6,11 +6,11 @@
 /*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/02 14:16:47 by tcajee            #+#    #+#             */
-/*   Updated: 2019/09/12 12:06:53 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/13 13:09:20 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/incs/libft.h"
+#include "../incs/libft.h"
 
 void	ft_print_perms(char *permissions, t_stat *s_stat)
 {

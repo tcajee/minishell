@@ -6,11 +6,11 @@
 /*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/15 11:36:46 by tcajee            #+#    #+#             */
-/*   Updated: 2019/09/11 16:42:30 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/13 13:09:14 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/incs/libft.h"
+#include "../incs/libft.h"
 
 int	ft_error_dir(char *path)
 {

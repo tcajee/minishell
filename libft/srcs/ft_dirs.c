@@ -6,11 +6,11 @@
 /*   By: tcajee <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 16:23:43 by tcajee            #+#    #+#             */
-/*   Updated: 2019/09/11 15:40:05 by sminnaar         ###   ########.fr       */
+/*   Updated: 2019/09/13 13:09:27 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/incs/libft.h"
+#include "../incs/libft.h"
 
 t_info	*ft_dir_add(t_info *last)
 {

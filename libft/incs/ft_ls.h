@@ -6,7 +6,7 @@
 /*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/15 14:36:21 by tcajee            #+#    #+#             */
-/*   Updated: 2019/09/11 15:51:03 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/13 13:11:21 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct			s_sort
 	int					m_count;
 }						t_sort;
 
-int						main(int argc, char **argv);
+int						ft_ls(int argc, char **argv);
 int						ft_ls_check(char *path);
 char					*ft_ls_path(char *path, char *d_name);
 void					ft_ls_file(int *flags, char **argv);
