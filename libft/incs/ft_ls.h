@@ -6,7 +6,7 @@
 /*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/15 14:36:21 by tcajee            #+#    #+#             */
-/*   Updated: 2019/09/13 13:11:21 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/13 13:19:20 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/time.h>
-
-# include <sys/xattr.h>
-# include <sys/ioctl.h>
-# include <sys/acl.h>
-# include <uuid/uuid.h>
 # include <limits.h>
-
-# define E_FLAGS -1
-# define E_DIR -2
-# define E_PERMS -4
-# define E_PRINTS -8
 
 # define F_SET(FLAGS, F_OFF, F_ON) FLAGS = (FLAGS & ~(F_OFF)) | (F_ON);
 
