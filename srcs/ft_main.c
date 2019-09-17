@@ -20,12 +20,13 @@ void	do_exit(char **arg)
 
 void	ft_runshel(char **arg, int i, char *path, char **env)
 {
-	while (arg[i] != '\0')
+	while (arg[i])
 		{
 			if (ft_strcmp(arg[i], "pwd") == 0)
 			{
 				path = getcwd(path, sizeof(path));
-				ft_printf("%s\n", path);
+				/* ft_printf("%s\n", path); */
+				printf("%s\n", path);
 				free(path);
 				path = NULL;
 			}
@@ -42,7 +43,8 @@ void	ft_runshel(char **arg, int i, char *path, char **env)
 			else if (ft_strcmp(arg[i], "exit") == 0)
 			 	do_exit(arg);
 			 else if(arg)
-			  	ft_printf("minishell: command not found: %s\n",arg[i]);
+			  	/* ft_printf("minishell: command not found: %s\n",arg[i]); */
+			  	printf("minishell: command not found: %s\n",arg[i]);
 			i++;
 		}
 }
@@ -72,13 +74,15 @@ void	ft_input(void)
 	pathreal = NULL;
 	path = getcwd(path, sizeof(path));
 	if (ft_strcmp(path, "/") == 0)
-		 ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN,
+		 /* ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
+		 printf("%s[ %s ]%s%s[$➜] %s", GREEN,
 		path, RESET, RED, RESET);
 	else
 	{
 		pathreal = ft_strsplit(path, '/');
 		last = ft_strlen_double(pathreal);
-		ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN,
+		printf("%s[ %s ]%s%s[$➜] %s", GREEN,
+		/* ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
 		pathreal[last - 1], RESET, RED, RESET);
 	}
 	free(path);
@@ -106,33 +110,32 @@ char	**ft_strcpy_double(char **arr)
 }
 
 
-int	main(int ac, char **av, char **envp)
-{
-	char	*input;
-	char	**arg;
-	char	*path;
-	int		i;
-	char	**env;
+/* int	main(int ac, char **av, char **envp) */
+/* { */
+/* 	char	*input; */
+/* 	char	**arg; */
+/* 	char	*path; */
+/* 	int		i; */
+/* 	char	**env; */
+/* 	i = 0; */
+/* 	env = ft_strcpy_double(envp); */
+/* 	path = NULL; */
+/* 	(void)(ac && av); */
+/* 	while (1) */
+/* 	{ */
+/* 		ft_input(); */
+/* 		input = NULL; */
+/* 		get_next_line(0, &input); */
+/* 		arg = ft_strsplit(input, ' '); */
+/* 		free(input); */
+/* 		ft_runshel(arg, i, path, env); */
+/* 		i = 0; */
+/* 	} */
+/* 	return (0); */
+/* } */
 
-	i = 0;
-	env = ft_strcpy_double(envp);
-	path = NULL;
-	(void)(ac && av);
-	while (1)
-	{
-		ft_input();
-		input = NULL;
-		get_next_line(0, &input);
-		arg = ft_strsplit(input, ' ');
-		free(input);
-		ft_runshel(arg, i, path, env);
-		i = 0;
-	}
-	return (0);
-}
 
-
-/* {{{TITLE
+/* /1* {{{TITLE */
 
 
 static int	find_quote(const char *str, int i)
@@ -300,4 +303,4 @@ int		main(int argc, char **argv, char **envv)
 	return (0);
 }
 
- }}} */
+ /* }}} *1/ */

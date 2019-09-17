@@ -37,11 +37,12 @@ void	check_env_var(char *arg, char **env)
 	char	**env_var;
 
 	i = 0;
-	while(env[i] != '\0')
+	while(env[i])
 	{
 		env_var = ft_strsplit(env[i], '=');
 		if (ft_strcmp(env_var[0], arg + 1) == 0)
-			ft_printf("%s", env_var[1]);
+			printf("%s", env_var[1]);
+			/* ft_printf("%s", env_var[1]); */
 		i++;
 	}
 }
@@ -55,9 +56,9 @@ void 	do_echo(char **arg, char **env)
 	i = 0;
 	k = 1;
 	count = 0;
-	while (arg[count] != '\0')
+	while (arg[count])
 		count++;
-	while (arg[k] != '\0')
+	while (arg[k])
 	{
 		print_echo(arg, env, i, k);
 		i = 0;
@@ -69,7 +70,7 @@ void 	do_echo(char **arg, char **env)
 }
 
  
-/* {{{TITLE
+/* /1* {{{TITLE */
  
   	
 void	mini_echo(char **argv)
@@ -86,5 +87,5 @@ void	mini_echo(char **argv)
 	ft_putstr("\b\n");
 }
  
- * }}} */
+ /* * }}} *1/ */
 

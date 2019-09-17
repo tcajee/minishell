@@ -50,7 +50,8 @@ int			ft_is_dir(char *dir)
 
 	if (lstat(dir, &s_is) < 0)
 	{
-		ft_printf("cd: no such file or directory: %s\n", dir);
+		/* ft_printf("cd: no such file or directory: %s\n", dir); */
+		printf("cd: no such file or directory: %s\n", dir);
 	}
 	return (s_is.st_mode & S_IFDIR) ? 1 : 0;
 }
@@ -93,7 +94,8 @@ void	do_cd(char **arg, char **env)
 	else if (ft_is_dir(arg[1]))
 		chdir(arg[1]);
 	else
-		ft_printf("cd: no such file or directory: %s\n", arg[1]);
+		printf("cd: no such file or directory: %s\n", arg[1]);
+		/* ft_printf("cd: no such file or directory: %s\n", arg[1]); */
 	do_setenv(old, &env);	
 	new_dir = getcwd(path, sizeof(new_dir));
 	cwd[2] = ft_strdup(new_dir);

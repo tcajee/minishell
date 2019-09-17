@@ -43,14 +43,15 @@ void	do_env(char **env)
 	int		i;
 
 	i = 0;
-	while (env[i] != '\0')
+	while (env[i])
 	{
-		ft_printf("%s\n", env[i]);
+		/* ft_printf("%s\n", env[i]); */
+		printf("%s\n", env[i]);
 	 	i++;
 	}
 }
 
-/* {{{TITLE
+/* /1* {{{TITLE */
  
   	
 
@@ -65,7 +66,7 @@ void	ft_putenv(char **env)
 	}	
 }
  
- * }}} */
+ /* * }}} *1/ */
 
 void	do_setenv(char **arg, char ***env)
 {
@@ -88,7 +89,8 @@ void	do_setenv(char **arg, char ***env)
 	}
 	if (count > 3)
 	{
-		ft_printf("setenv: too many arguements\n");
+		printf("setenv: too many arguements\n");
+		/* ft_printf("setenv: too many arguements\n"); */
 	}
 	if (count > 1 && count < 4)
 	{
@@ -123,7 +125,7 @@ void	do_setenv(char **arg, char ***env)
 
 
 
-/* {{{TITLE
+/* /1* {{{TITLE */
  
  
 
@@ -147,6 +149,7 @@ int     ft_findreplace(char **tab, char *elem, char *data)
     if (!elem)
     {
         printf("No variable entered\n");
+        /* ft_printf("No variable entered\n"); */
         return (-1);
     }
     len = ft_strlen(elem);
@@ -193,4 +196,4 @@ void    ft_setenv(char **tab, char *elem, char *data)
     ft_pushback(tab, &len);
 }
  
- * }}} */
+ /* * }}} *1/ */
