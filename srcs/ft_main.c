@@ -189,7 +189,7 @@ static void call_handler(char **argv, char ***env)
 	char *path;
 
 	path = NULL;
-	(void)env;
+	/* (void)env; */
 	if (ft_strcmp(argv[0], "pwd") == 0)
 	{
 		path = getcwd(path, sizeof(path));
@@ -206,11 +206,8 @@ static void call_handler(char **argv, char ***env)
 		do_env(*env);
 	else if (ft_strcmp(argv[0], "setenv") == 0)
 		ft_setenv(*env, argv[1], "hellO");
-		/* ft_setenv(*env, argv[1], "hellO"); */
-		/* ft_putendl("echo"); */
 	else if (ft_strcmp(argv[0], "unsetenv") == 0)
-		/* ft_unsetenv(*env, argv[1]); */
-		ft_putendl("echo");
+		ft_unsetenv(*env, argv[1]);
 	else if (ft_strcmp(argv[0], "exit") == 0)
 	{
 		ft_tabfree(*env);
@@ -227,11 +224,7 @@ int		input_handler(const char *input, char ***env)
 
 	args = ft_strqotsplit(input);
 	call_handler(args, env);
-	/* ft_tabfree(args); */
-//	printf("%p\n", env);
-//	free(args);
-//	args = NULL;
-//	free(**env);
+	ft_tabfree(args);
 	return (0);
 }
 
