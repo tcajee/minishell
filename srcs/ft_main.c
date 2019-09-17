@@ -18,36 +18,36 @@ void	do_exit(char **arg)
 	exit(0);
 }
 
-void	ft_runshel(char **arg, int i, char *path, char **env)
-{
-	while (arg[i])
-		{
-			if (ft_strcmp(arg[i], "pwd") == 0)
-			{
-				path = getcwd(path, sizeof(path));
-				printf("%s\n", path);
-				/* ft_printf("%s\n", path); */
-				free(path);
-				path = NULL;
-			}
-			else if (ft_strcmp(arg[i], "echo") == 0)
-				do_echo(arg, env);
-			else if (ft_strcmp(arg[i], "cd") == 0)
-			 	do_cd(arg, env);
-			else if (ft_strcmp(arg[i], "setenv") == 0)
-				do_setenv(arg, &env);
-			 /* else if (ft_strcmp(arg[i], "unsetenv")) */
-			 /* 	do_unsetenv(arg, env); */
-			else if (ft_strcmp(arg[i], "env") == 0)
-			 	do_env(env);
-			else if (ft_strcmp(arg[i], "exit") == 0)
-			 	do_exit(arg);
-			 else if(arg)
-			  	printf("minishell: command not found: %s\n",arg[i]);
-			  	/* ft_printf("minishell: command not found: %s\n",arg[i]); */
-			i++;
-		}
-}
+/* void	ft_runshel(char **arg, int i, char *path, char **env) */
+/* { */
+/* 	while (arg[i]) */
+/* 		{ */
+/* 			if (ft_strcmp(arg[i], "pwd") == 0) */
+/* 			{ */
+/* 				path = getcwd(path, sizeof(path)); */
+/* 				printf("%s\n", path); */
+/* 				/1* ft_printf("%s\n", path); *1/ */
+/* 				free(path); */
+/* 				path = NULL; */
+/* 			} */
+/* 			else if (ft_strcmp(arg[i], "echo") == 0) */
+/* 				do_echo(arg, env); */
+/* 			else if (ft_strcmp(arg[i], "cd") == 0) */
+/* 			 	do_cd(arg, env); */
+/* 			else if (ft_strcmp(arg[i], "setenv") == 0) */
+/* 				do_setenv(arg, &env); */
+/* 			 /1* else if (ft_strcmp(arg[i], "unsetenv")) *1/ */
+/* 			 /1* 	do_unsetenv(arg, env); *1/ */
+/* 			else if (ft_strcmp(arg[i], "env") == 0) */
+/* 			 	do_env(env); */
+/* 			else if (ft_strcmp(arg[i], "exit") == 0) */
+/* 			 	do_exit(arg); */
+/* 			 else if(arg) */
+/* 			  	printf("minishell: command not found: %s\n",arg[i]); */
+/* 			  	/1* ft_printf("minishell: command not found: %s\n",arg[i]); *1/ */
+/* 			i++; */
+/* 		} */
+/* } */
 
 
 int		ft_strlen_double(char **str)
@@ -222,14 +222,13 @@ static void call_handler(char **argv, char ***env)
 {
 	(void)env;
 	if (ft_strcmp(argv[0], "echo") == 0)
-		ft_putendl("echo");
-		/* mini_echo(argv); */
+		do_echo(argv, *env);
 	else if (ft_strcmp(argv[0], "env") == 0)
-		/* ft_putenv(*env); */
-		ft_putendl("echo");
+		do_env(*env);
 	else if (ft_strcmp(argv[0], "setenv") == 0)
+		ft_setenv(*env, argv[1], "hellO");
 		/* ft_setenv(*env, argv[1], "hellO"); */
-		ft_putendl("echo");
+		/* ft_putendl("echo"); */
 	else if (ft_strcmp(argv[0], "unsetenv") == 0)
 		/* ft_unsetenv(*env, argv[1]); */
 		ft_putendl("echo");
@@ -247,7 +246,7 @@ int		input_handler(const char *input, char ***env)
 
 	args = ft_strqotsplit(input);
 	call_handler(args, env);
-	ft_tabfree(args);
+	/* ft_tabfree(args); */
 //	printf("%p\n", env);
 //	free(args);
 //	args = NULL;

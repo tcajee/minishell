@@ -96,10 +96,12 @@ void	do_cd(char **arg, char **env)
 	else
 		printf("cd: no such file or directory: %s\n", arg[1]);
 		/* ft_printf("cd: no such file or directory: %s\n", arg[1]); */
-	do_setenv(old, &env);	
+	/* ft_setenv(old, &env); */	
+	/* do_setenv(old, &env); */	
 	new_dir = getcwd(path, sizeof(new_dir));
 	cwd[2] = ft_strdup(new_dir);
-	do_setenv(cwd, &env);
+	/* ft_setenv(cwd, &env); */
+	/* do_setenv(cwd, &env); */
 	free(new_dir);
 	free(path);
 }
