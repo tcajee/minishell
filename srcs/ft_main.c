@@ -223,37 +223,63 @@ char		**ft_strqotsplit(char const *str)
 
 static void call_handler(char **argv, char ***env)
 {
+	char *path;
+
+	/* path = (char *)malloc(sizeof(char) * PATH_MAX + 1); */
 	(void)env;
-	if (ft_strcmp(argv[0], "echo") == 0)
-		mini_echo(argv);
-	else if (ft_strcmp(argv[0], "env") == 0)
-		ft_putenv(*env);
+	if (!argv[0])
+		return ;
+	else if (ft_strcmp(argv[0], "pwd") == 0)
+	{
+		path = (char *)malloc(sizeof(char) * 1024 + 1);
+		path[1024 + 1] = '\0';
+		path = getcwd(path, sizeof(path));
+		/* ft_printf("%s\n", path); */
+		printf("%s\n", path);
+		free(path);
+	}
+	else if (ft_strcmp(argv[0], "echo") == 0)
+		do_echo(argv, *env);
+	/* else if (ft_strcmp(argv[0], "echo") == 0) */
+	/* 	mini_echo(argv); */
+	else if (ft_strcmp(argv[0], "cd") == 0)
+		do_cd(argv, *env);
 	else if (ft_strcmp(argv[0], "setenv") == 0)
 		ft_setenv(*env, argv[1], "hellO");
+	/* else if (ft_strcmp(arg[i], "setenv") == 0) */
+	/* 	do_setenv(arg, &env); */
+	else if (ft_strcmp(argv[0], "env") == 0)
+		do_env(*env);
+	else if (ft_strcmp(argv[0], "env") == 0)
+		ft_putenv(*env);
 	else if (ft_strcmp(argv[0], "unsetenv") == 0)
 		ft_unsetenv(*env, argv[1]);
+	/* else if (ft_strcmp(argv[0], "unsetenv")) */
+	/* 	do_unsetenv(argv, env); */
 	else if (ft_strcmp(argv[0], "exit") == 0)
 	{
 		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
-	//free(argv);
+	/* else if (ft_strcmp(argv[0], "exit") == 0) */
+	/* 	do_exit(argv); */
+	else if (argv[0])
+		/* ft_printf("minishell: command not found: %s\n",arg[i]); */
+		printf("minishell: command not found: %s\n",argv[0]);
 }
 
 int		input_handler(const char *input, char ***env)
 {
 	char **args;
-
-	args = ft_strqotsplit(input);
-	call_handler(args, env);
-	ft_tabfree(args);
-//	printf("%p\n", env);
-//	free(args);
-//	args = NULL;
-//	free(**env);
+	
+	if (*input)
+	{
+		args = ft_strqotsplit(input);
+		call_handler(args, env);
+		ft_tabfree(args);
+	}
 	return (0);
 }
-
 
 char    **ft_tabdup(char **tab)
 {
@@ -262,32 +288,30 @@ char    **ft_tabdup(char **tab)
 	char    **cpy;
 
 	if (tab)
-    {
-        i = 0;
-        len = ft_tablen(tab);
-        if (!(cpy = (char**)malloc(sizeof(char *) * (len + 1))))
-            return (NULL);
-        while (i < len)
-        {
-            cpy[i] = ft_strdup(tab[i]);
-            i++;
-        }
-        cpy[i] = NULL;
-        return (cpy);
-    }
-    return (NULL);
+	{
+		i = 0;
+		len = ft_tablen(tab);
+		if (!(cpy = (char**)malloc(sizeof(char *) * (len + 1))))
+			return (NULL);
+		while (i < len)
+		{
+			cpy[i] = ft_strdup(tab[i]);
+			i++;
+		}
+		cpy[i] = NULL;
+		return (cpy);
+	}
+	return (NULL);
 }
-
 
 int		main(int argc, char **argv, char **envv)
 {
-
 	char *input;
 	char **env;
 
 	(void)(argc && argv);
 	env = ft_tabdup(envv);
-	ft_putstr("$>");
+	ft_putstr("$> ");
 	input = NULL;
 	while (1)
 	{
@@ -295,9 +319,8 @@ int		main(int argc, char **argv, char **envv)
 		input_handler(input, &env);
 		free(input);
 		input = NULL;
-		ft_putstr("$>");
+		ft_putstr("$> ");
 	}
 	free(&env);
 	return (0);
 }
-
