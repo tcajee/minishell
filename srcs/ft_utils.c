@@ -34,14 +34,12 @@
 /* 	pathreal = NULL; */
 /* 	path = getcwd(path, sizeof(path)); */
 /* 	if (ft_strcmp(path, "/") == 0) */
-/* 		 printf("%s[ %s ]%s%s[$➜] %s", GREEN, */ 
 /* 		 ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */ 
 /* 		path, RESET, RED, RESET); */
 /* 	else */
 /* 	{ */
 /* 		pathreal = ft_strsplit(path, '/'); */
 /* 		last = ft_strlen_double(pathreal); */
-/* 		printf("%s[ %s ]%s%s[$➜] %s", GREEN, */ 
 /* 		ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */ 
 /* 		pathreal[last - 1], RESET, RED, RESET); */
 /* 	} */

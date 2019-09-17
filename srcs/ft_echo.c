@@ -41,8 +41,7 @@ void	check_env_var(char *arg, char **env)
 	{
 		env_var = ft_strsplit(env[i], '=');
 		if (ft_strcmp(env_var[0], arg + 1) == 0)
-			printf("%s", env_var[1]);
-			/* ft_printf("%s", env_var[1]); */
+			ft_printf("%s", env_var[1]);
 		i++;
 	}
 }
