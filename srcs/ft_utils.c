@@ -36,6 +36,40 @@ int		ft_tabsearch(char **tab, char *elem)
 	return (0);
 }
 
+char    **ft_tabdup(char **tab)
+{
+	int     i;
+	int     len;
+	char    **cpy;
+
+	if (tab)
+	{
+		i = 0;
+		len = ft_tablen(tab);
+		if (!(cpy = (char**)malloc(sizeof(char *) * (len + 1))))
+			return (NULL);
+		while (i < len)
+		{
+			cpy[i] = ft_strdup(tab[i]);
+			i++;
+		}
+		cpy[i] = NULL;
+		return (cpy);
+	}
+	return (NULL);
+}
+
+
+int     ft_tablen(char **tab)
+{
+	int len;
+
+	len = 0;
+	while (tab[len])
+		len++;
+	return (len);
+}
+
 void	ft_tabfree(char **tab)
 {
 	int len;

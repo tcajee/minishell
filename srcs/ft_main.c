@@ -37,9 +37,7 @@ static void call_handler(char **argv, char ***env)
 
 	/* path = (char *)malloc(sizeof(char) * PATH_MAX + 1); */
 	(void)env;
-	if (!argv[0])
-		return ;
-	else if (ft_strcmp(argv[0], "pwd") == 0)
+	if (ft_strcmp(argv[0], "pwd") == 0)
 	{
 		path = (char *)malloc(sizeof(char) * 1024 + 1);
 		path[1024 + 1] = '\0';
@@ -51,22 +49,14 @@ static void call_handler(char **argv, char ***env)
 	}
 	else if (ft_strcmp(argv[0], "echo") == 0)
 		do_echo(argv, *env);
-	/* else if (ft_strcmp(argv[0], "echo") == 0) */
-	/* 	mini_echo(argv); */
 	else if (ft_strcmp(argv[0], "cd") == 0)
 		do_cd(argv, *env);
 	else if (ft_strcmp(argv[0], "setenv") == 0)
 		ft_setenv(*env, argv[1], "hellO");
-	/* else if (ft_strcmp(arg[i], "setenv") == 0) */
-	/* 	do_setenv(arg, &env); */
 	else if (ft_strcmp(argv[0], "env") == 0)
-		do_env(*env);
-	/* else if (ft_strcmp(argv[0], "env") == 0) */
-	/* 	ft_putenv(*env); */
+		ft_putenv(*env);
 	else if (ft_strcmp(argv[0], "unsetenv") == 0)
 		ft_unsetenv(*env, argv[1]);
-	/* else if (ft_strcmp(argv[0], "unsetenv")) */
-	/* 	do_unsetenv(argv, env); */
 	else if (ft_strcmp(argv[0], "exit") == 0)
 	{
 		ft_tabfree(*env);
@@ -85,32 +75,10 @@ int		input_handler(const char *input, char ***env)
 
 	args = ft_strsplit(input, ' ');
 	/* do_env(args); */
-	call_handler(args, env);
+	if (args[0])
+		call_handler(args, env);
 	ft_tabfree(args);
 	return (0);
-}
-
-char    **ft_tabdup(char **tab)
-{
-	int     i;
-	int     len;
-	char    **cpy;
-
-	if (tab)
-	{
-		i = 0;
-		len = ft_tablen(tab);
-		if (!(cpy = (char**)malloc(sizeof(char *) * (len + 1))))
-			return (NULL);
-		while (i < len)
-		{
-			cpy[i] = ft_strdup(tab[i]);
-			i++;
-		}
-		cpy[i] = NULL;
-		return (cpy);
-	}
-	return (NULL);
 }
 
 int		main(int argc, char **argv, char **envv)
