@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/17 16:45:53 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/17 17:37:56 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,36 @@ static char		**set_new_env(char **env, char **arg, int num_arg)
 	free(env);
 	return (new);
 }
+
+
+void	do_env(char **env)
+{
+	int		i;
+
+	i = 0;
+	while (env[i] != '\0')
+	{
+		ft_printf("%s\n", env[i]);
+	 	i++;
+	}
+}
+
+/* {{{TITLE
+ 
+  	
+
+void	ft_putenv(char **env)
+{
+	int i;
+	i = 0;
+	while (env[i])
+	{
+		ft_putendl(env[i]);
+		i++;
+	}	
+}
+ 
+ * }}} */
 
 void	do_setenv(char **arg, char ***env)
 {
@@ -90,3 +120,77 @@ void	do_setenv(char **arg, char ***env)
 		}
 	}
 }
+
+
+
+/* {{{TITLE
+ 
+ 
+
+int     ft_tablen(char **tab)
+{
+    int len;
+
+	len = 0;
+	while (tab[len])
+		len++;
+	return (len);
+}
+
+int     ft_findreplace(char **tab, char *elem, char *data)
+{
+    int i;
+    size_t len;
+	char	*tmp;
+	char	*ret;
+    i = 0;
+    if (!elem)
+    {
+        printf("No variable entered\n");
+        return (-1);
+    }
+    len = ft_strlen(elem);
+    while (tab[i])
+    {
+        if (ft_strncmp(tab[i], elem, len) == 0 && elem[len + 1] == '=')
+        {
+            ft_strdel(&tab[i]);
+            tmp = ft_strjoin(elem, "=");
+			ret = ft_strjoin(tmp, data);
+			tab[i] = ft_strdup(ret);
+			return (1);
+        }
+        i++;
+    }
+    return (0);
+}
+
+void        ft_pushback(char **tab, int *len)
+{
+    int i;
+    char *tmp;
+
+    i = 0;
+    *len -= 1;
+    while (i < *len)
+    {
+        if (tab[i] == NULL  && tab[i + 1])
+        {
+            tmp = tab[i];
+            tab[i] = tab[i + 1];
+            tab[i + 1] = tmp;
+        }
+        i++;
+    }
+}
+
+void    ft_setenv(char **tab, char *elem, char *data)
+{
+    int len;
+
+    len = ft_tablen(tab);
+    ft_findreplace(tab, elem, data);
+    ft_pushback(tab, &len);
+}
+ 
+ * }}} */

@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 14:48:27 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/17 16:44:34 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/17 17:26:00 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "ft_printf.h"
 #include "ft_sh.h"
 #include "ft_stdlib.h"
+#include "minishell.h"
 
 
 void	*ft_memset(void *b, int c, size_t len);
@@ -34,6 +35,7 @@ size_t	ft_strlen(const char *s);
 size_t	ft_wcharlen(unsigned wc);
 size_t	ft_wstrlen(unsigned *s);
 char	*ft_strdup(const char *s1);
+char	*ft_strndup(const char *s, size_t n);
 char	*ft_strcpy(char *dst, const char *src);
 char	*ft_strncpy(char *dst, const char *src, size_t len);
 char	*ft_strcat(char *s1, const char *s2);
