@@ -12,12 +12,6 @@
 
 #include "../libft/includes/libft.h"
 
-void	do_exit(char **arg)
-{
-	free(arg);
-	exit(0);
-}
-
 /* void	ft_runshel(char **arg, int i, char *path, char **env) */
 /* { */
 /* 	while (arg[i]) */
@@ -103,34 +97,6 @@ int		ft_strlen_double(char **str)
 /* 	} */
 /* 	return (big); */
 /* } */
-
-
-/* int	main(int ac, char **av, char **envp) */
-/* { */
-/* 	char	*input; */
-/* 	char	**arg; */
-/* 	char	*path; */
-/* 	int		i; */
-/* 	char	**env; */
-/* 	i = 0; */
-/* 	env = ft_strcpy_double(envp); */
-/* 	path = NULL; */
-/* 	(void)(ac && av); */
-/* 	while (1) */
-/* 	{ */
-/* 		ft_input(); */
-/* 		input = NULL; */
-/* 		get_next_line(0, &input); */
-/* 		arg = ft_strsplit(input, ' '); */
-/* 		free(input); */
-/* 		ft_runshel(arg, i, path, env); */
-/* 		i = 0; */
-/* 	} */
-/* 	return (0); */
-/* } */
-
-
-/* /1* {{{TITLE */
 
 
 static int	find_quote(const char *str, int i)
@@ -220,8 +186,21 @@ char		**ft_strqotsplit(char const *str)
 
 static void call_handler(char **argv, char ***env)
 {
+	char *path;
+
+	path = NULL;
 	(void)env;
-	if (ft_strcmp(argv[0], "echo") == 0)
+	if (ft_strcmp(argv[0], "pwd") == 0)
+	{
+		path = getcwd(path, sizeof(path));
+		printf("%s\n", path);
+		/* ft_printf("%s\n", path); */
+		free(path);
+		path = NULL;
+	}
+	else if (ft_strcmp(argv[0], "cd") == 0)
+		do_cd(argv, *env);
+	else if (ft_strcmp(argv[0], "echo") == 0)
 		do_echo(argv, *env);
 	else if (ft_strcmp(argv[0], "env") == 0)
 		do_env(*env);
@@ -237,7 +216,9 @@ static void call_handler(char **argv, char ***env)
 		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
-	//free(argv);
+	else if(argv[0])
+		printf("minishell: command not found: %s\n",argv[0]);
+		/* ft_printf("minishell: command not found: %s\n",arg[i]); */
 }
 
 int		input_handler(const char *input, char ***env)
@@ -301,4 +282,3 @@ int		main(int argc, char **argv, char **envv)
 	return (0);
 }
 
- /* }}} *1/ */
