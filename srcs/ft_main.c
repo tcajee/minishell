@@ -20,12 +20,13 @@ void	do_exit(char **arg)
 
 void	ft_runshel(char **arg, int i, char *path, char **env)
 {
-	while (arg[i] != '\0')
+	while (arg[i])
 		{
 			if (ft_strcmp(arg[i], "pwd") == 0)
 			{
 				path = getcwd(path, sizeof(path));
-				ft_printf("%s\n", path);
+				printf("%s\n", path);
+				/* ft_printf("%s\n", path); */
 				free(path);
 				path = NULL;
 			}
@@ -42,7 +43,8 @@ void	ft_runshel(char **arg, int i, char *path, char **env)
 			else if (ft_strcmp(arg[i], "exit") == 0)
 			 	do_exit(arg);
 			 else if(arg)
-			  	ft_printf("minishell: command not found: %s\n",arg[i]);
+			  	printf("minishell: command not found: %s\n",arg[i]);
+			  	/* ft_printf("minishell: command not found: %s\n",arg[i]); */
 			i++;
 		}
 }
@@ -51,7 +53,6 @@ void	ft_runshel(char **arg, int i, char *path, char **env)
 int		ft_strlen_double(char **str)
 {
 	int i;
-
 	i = 0;
 	while (str[i])
 	{
@@ -61,78 +62,75 @@ int		ft_strlen_double(char **str)
 	free(str);
 }
 
-void	ft_input(void)
-{
-	char	*path;
-	char	**pathreal;
-	int		last;
+/* void	ft_input(void) */
+/* { */
+/* 	char	*path; */
+/* 	char	**pathreal; */
+/* 	int		last; */
+/* 	path = NULL; */
+/* 	last = 0; */
+/* 	pathreal = NULL; */
+/* 	path = getcwd(path, sizeof(path)); */
+/* 	if (ft_strcmp(path, "/") == 0) */
+/* 		 ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
+/* 		path, RESET, RED, RESET); */
+/* 	else */
+/* 	{ */
+/* 		pathreal = ft_strsplit(path, '/'); */
+/* 		last = ft_strlen_double(pathreal); */
+/* 		ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
+/* 		pathreal[last - 1], RESET, RED, RESET); */
+/* 	} */
+/* 	free(path); */
+/* 	free(pathreal); */
+/* } */
 
-	path = NULL;
-	last = 0;
-	pathreal = NULL;
-	path = getcwd(path, sizeof(path));
-	if (ft_strcmp(path, "/") == 0)
-		 ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN,
-		path, RESET, RED, RESET);
-	else
-	{
-		pathreal = ft_strsplit(path, '/');
-		last = ft_strlen_double(pathreal);
-		ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN,
-		pathreal[last - 1], RESET, RED, RESET);
-	}
-	free(path);
-	free(pathreal);
-}
-
-char	**ft_strcpy_double(char **arr)
-{
-	int		k;
-	int		i;
-	char	**big;
-
-	k = ft_strlen_double(arr);
-	i = 0;
-	if (!(big = (char **)malloc(sizeof(char *) * (k + 1))))
-		return (NULL);
-	big[k + 1] = NULL;
-	while (i != k)
-	{
-		big[i] = ft_strnew(ft_strlen(arr[i]));
-		ft_strcpy(big[i], arr[i]);
-		i++;
-	}
-	return (big);
-}
+/* char	**ft_strcpy_double(char **arr) */
+/* { */
+/* 	int		k; */
+/* 	int		i; */
+/* 	char	**big; */
+/* 	k = ft_strlen_double(arr); */
+/* 	i = 0; */
+/* 	if (!(big = (char **)malloc(sizeof(char *) * (k + 1)))) */
+/* 		return (NULL); */
+/* 	big[k + 1] = NULL; */
+/* 	while (i != k) */
+/* 	{ */
+/* 		big[i] = ft_strnew(ft_strlen(arr[i])); */
+/* 		ft_strcpy(big[i], arr[i]); */
+/* 		i++; */
+/* 	} */
+/* 	return (big); */
+/* } */
 
 
-int	main(int ac, char **av, char **envp)
-{
-	char	*input;
-	char	**arg;
-	char	*path;
-	int		i;
-	char	**env;
+/* int	main(int ac, char **av, char **envp) */
+/* { */
+/* 	char	*input; */
+/* 	char	**arg; */
+/* 	char	*path; */
+/* 	int		i; */
+/* 	char	**env; */
+/* 	i = 0; */
+/* 	env = ft_strcpy_double(envp); */
+/* 	path = NULL; */
+/* 	(void)(ac && av); */
+/* 	while (1) */
+/* 	{ */
+/* 		ft_input(); */
+/* 		input = NULL; */
+/* 		get_next_line(0, &input); */
+/* 		arg = ft_strsplit(input, ' '); */
+/* 		free(input); */
+/* 		ft_runshel(arg, i, path, env); */
+/* 		i = 0; */
+/* 	} */
+/* 	return (0); */
+/* } */
 
-	i = 0;
-	env = ft_strcpy_double(envp);
-	path = NULL;
-	(void)(ac && av);
-	while (1)
-	{
-		ft_input();
-		input = NULL;
-		get_next_line(0, &input);
-		arg = ft_strsplit(input, ' ');
-		free(input);
-		ft_runshel(arg, i, path, env);
-		i = 0;
-	}
-	return (0);
-}
 
-
-/* {{{TITLE
+/* /1* {{{TITLE */
 
 
 static int	find_quote(const char *str, int i)
@@ -224,13 +222,17 @@ static void call_handler(char **argv, char ***env)
 {
 	(void)env;
 	if (ft_strcmp(argv[0], "echo") == 0)
-		mini_echo(argv);
+		ft_putendl("echo");
+		/* mini_echo(argv); */
 	else if (ft_strcmp(argv[0], "env") == 0)
-		ft_putenv(*env);
+		/* ft_putenv(*env); */
+		ft_putendl("echo");
 	else if (ft_strcmp(argv[0], "setenv") == 0)
-		ft_setenv(*env, argv[1], "hellO");
+		/* ft_setenv(*env, argv[1], "hellO"); */
+		ft_putendl("echo");
 	else if (ft_strcmp(argv[0], "unsetenv") == 0)
-		ft_unsetenv(*env, argv[1]);
+		/* ft_unsetenv(*env, argv[1]); */
+		ft_putendl("echo");
 	else if (ft_strcmp(argv[0], "exit") == 0)
 	{
 		ft_tabfree(*env);
@@ -300,4 +302,4 @@ int		main(int argc, char **argv, char **envv)
 	return (0);
 }
 
- }}} */
+ /* }}} *1/ */

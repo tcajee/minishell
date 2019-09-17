@@ -45,7 +45,8 @@ void	do_env(char **env)
 	i = 0;
 	while (env[i] != '\0')
 	{
-		ft_printf("%s\n", env[i]);
+		printf("%s\n", env[i]);
+		/* ft_printf("%s\n", env[i]); */
 	 	i++;
 	}
 }
@@ -88,7 +89,8 @@ void	do_setenv(char **arg, char ***env)
 	}
 	if (count > 3)
 	{
-		ft_printf("setenv: too many arguements\n");
+		/* ft_printf("setenv: too many arguements\n"); */
+		printf("setenv: too many arguements\n");
 	}
 	if (count > 1 && count < 4)
 	{

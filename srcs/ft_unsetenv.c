@@ -21,6 +21,7 @@ int		ft_findremove(char **tab, char *elem)
 	if (!elem)
 	{
 		printf("No variable entered\n");
+		/* ft_printf("No variable entered\n"); */
 		return (-1);
 	}
 	len = ft_strlen(elem);
