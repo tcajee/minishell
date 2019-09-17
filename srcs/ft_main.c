@@ -12,89 +12,11 @@
 
 #include "../libft/includes/libft.h"
 
-void	do_exit(char **arg)
-{
-	free(arg);
-	exit(0);
-}
-
-void	ft_runshel(char **arg, int i, char *path, char **env)
-{
-	while (arg[i])
-		{
-			if (ft_strcmp(arg[i], "pwd") == 0)
-			{
-				path = getcwd(path, sizeof(path));
-				/* ft_printf("%s\n", path); */
-				printf("%s\n", path);
-				free(path);
-				path = NULL;
-			}
-			else if (ft_strcmp(arg[i], "echo") == 0)
-				do_echo(arg, env);
-			else if (ft_strcmp(arg[i], "cd") == 0)
-			 	do_cd(arg, env);
-			else if (ft_strcmp(arg[i], "setenv") == 0)
-				do_setenv(arg, &env);
-			 /* else if (ft_strcmp(arg[i], "unsetenv")) */
-			 /* 	do_unsetenv(arg, env); */
-			else if (ft_strcmp(arg[i], "env") == 0)
-			 	do_env(env);
-			else if (ft_strcmp(arg[i], "exit") == 0)
-			 	do_exit(arg);
-			 else if(arg)
-			  	/* ft_printf("minishell: command not found: %s\n",arg[i]); */
-			  	printf("minishell: command not found: %s\n",arg[i]);
-			i++;
-		}
-}
-
-
-int		ft_strlen_double(char **str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return(i);
-	free(str);
-}
-
-void	ft_input(void)
-{
-	char	*path;
-	char	**pathreal;
-	int		last;
-
-	path = NULL;
-	last = 0;
-	pathreal = NULL;
-	path = getcwd(path, sizeof(path));
-	if (ft_strcmp(path, "/") == 0)
-		 /* ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
-		 printf("%s[ %s ]%s%s[$➜] %s", GREEN,
-		path, RESET, RED, RESET);
-	else
-	{
-		pathreal = ft_strsplit(path, '/');
-		last = ft_strlen_double(pathreal);
-		printf("%s[ %s ]%s%s[$➜] %s", GREEN,
-		/* ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
-		pathreal[last - 1], RESET, RED, RESET);
-	}
-	free(path);
-	free(pathreal);
-}
-
 char	**ft_strcpy_double(char **arr)
 {
 	int		k;
 	int		i;
 	char	**big;
-
 	k = ft_strlen_double(arr);
 	i = 0;
 	if (!(big = (char **)malloc(sizeof(char *) * (k + 1))))
@@ -109,118 +31,6 @@ char	**ft_strcpy_double(char **arr)
 	return (big);
 }
 
-
-/* int	main(int ac, char **av, char **envp) */
-/* { */
-/* 	char	*input; */
-/* 	char	**arg; */
-/* 	char	*path; */
-/* 	int		i; */
-/* 	char	**env; */
-/* 	i = 0; */
-/* 	env = ft_strcpy_double(envp); */
-/* 	path = NULL; */
-/* 	(void)(ac && av); */
-/* 	while (1) */
-/* 	{ */
-/* 		ft_input(); */
-/* 		input = NULL; */
-/* 		get_next_line(0, &input); */
-/* 		arg = ft_strsplit(input, ' '); */
-/* 		free(input); */
-/* 		ft_runshel(arg, i, path, env); */
-/* 		i = 0; */
-/* 	} */
-/* 	return (0); */
-/* } */
-
-
-
-static int	find_quote(const char *str, int i)
-{
-	char *pos;
-
-	i++;
-	while ((pos = ft_strchr(str + i, '\"')))
-		if (str[i - 1] != '\\')
-			break ;
-	if (!pos)
-		return (0);
-	return (pos - str);
-}
-
-static int	count_words(char const *str)
-{
-	int		i;
-	int		last_was_split;
-	int		count;
-
-	last_was_split = 1;
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			last_was_split = 1;
-		else
-		{
-			if (last_was_split)
-				count++;
-			if (last_was_split && str[i] == '\"')
-				if (!(i = find_quote(str, i)))
-					return (0);
-			last_was_split = 0;
-		}
-		i++;
-	}
-	return (count);
-}
-
-static void	fill_array(char **result, char const *str)
-{
-	int		current_word;
-	int		i;
-	char	*start;
-
-	i = -1;
-	current_word = 0;
-	while (str[++i])
-		if (str[i] == '\"')
-		{
-			start = (char *)str + i++ + 1;
-			while (str[i] && (str[i] != '\"' || str[i - 1] == '\''))
-				i++;
-			result[current_word] = *ft_strsplit(start, str + i-- - start);
-			current_word++;
-		}
-		else if ((str[i]) != ' ')
-		{
-			start = (char *)str + i;
-			while ((str[i]) != ' '  && str[i])
-				i++;
-			result[current_word] = ft_strndup(start, str + i-- - start);
-			current_word++;
-		}
-	result[current_word] = 0;
-}
-
-char		**ft_strqotsplit(char const *str)
-{
-	char		**result;
-	size_t		words;
-
-	if (!str)
-		return (NULL);
-	if (!(words = count_words(str)))
-		return (NULL);
-	result = malloc(sizeof(char *) * (words + 1));
-	if (!result)
-		return (NULL);
-	fill_array(result, str);
-	return (result);
-}
-
-
 static void call_handler(char **argv, char ***env)
 {
 	char *path;
@@ -233,10 +43,11 @@ static void call_handler(char **argv, char ***env)
 	{
 		path = (char *)malloc(sizeof(char) * 1024 + 1);
 		path[1024 + 1] = '\0';
-		path = getcwd(path, sizeof(path));
+		path = getcwd(path, 1025);
 		/* ft_printf("%s\n", path); */
 		printf("%s\n", path);
-		free(path);
+		if (path)
+			free(path);
 	}
 	else if (ft_strcmp(argv[0], "echo") == 0)
 		do_echo(argv, *env);
@@ -250,8 +61,8 @@ static void call_handler(char **argv, char ***env)
 	/* 	do_setenv(arg, &env); */
 	else if (ft_strcmp(argv[0], "env") == 0)
 		do_env(*env);
-	else if (ft_strcmp(argv[0], "env") == 0)
-		ft_putenv(*env);
+	/* else if (ft_strcmp(argv[0], "env") == 0) */
+	/* 	ft_putenv(*env); */
 	else if (ft_strcmp(argv[0], "unsetenv") == 0)
 		ft_unsetenv(*env, argv[1]);
 	/* else if (ft_strcmp(argv[0], "unsetenv")) */
@@ -271,13 +82,11 @@ static void call_handler(char **argv, char ***env)
 int		input_handler(const char *input, char ***env)
 {
 	char **args;
-	
-	if (*input)
-	{
-		args = ft_strqotsplit(input);
-		call_handler(args, env);
-		ft_tabfree(args);
-	}
+
+	args = ft_strsplit(input, ' ');
+	/* do_env(args); */
+	call_handler(args, env);
+	ft_tabfree(args);
 	return (0);
 }
 
@@ -316,11 +125,85 @@ int		main(int argc, char **argv, char **envv)
 	while (1)
 	{
 		get_next_line(0, &input);
-		input_handler(input, &env);
-		free(input);
-		input = NULL;
+		if (*input)
+			input_handler(input, &env);
 		ft_putstr("$> ");
 	}
-	free(&env);
+	if (env)
+		free(&env);
 	return (0);
 }
+
+/* void	do_exit(char **arg) */
+/* { */
+/* 	free(arg); */
+/* 	exit(0); */
+/* } */
+
+/* void	ft_runshel(char **arg, int i, char *path, char **env) */
+/* { */
+/* 	while (arg[i]) */
+/* 		{ */
+/* 			if (ft_strcmp(arg[i], "pwd") == 0) */
+/* 			{ */
+/* 				path = getcwd(path, sizeof(path)); */
+/* 				/1* ft_printf("%s\n", path); *1/ */
+/* 				printf("%s\n", path); */
+/* 				free(path); */
+/* 				path = NULL; */
+/* 			} */
+/* 			else if (ft_strcmp(arg[i], "echo") == 0) */
+/* 				do_echo(arg, env); */
+/* 			else if (ft_strcmp(arg[i], "cd") == 0) */
+/* 			 	do_cd(arg, env); */
+/* 			else if (ft_strcmp(arg[i], "setenv") == 0) */
+/* 				do_setenv(arg, &env); */
+/* 			 /1* else if (ft_strcmp(arg[i], "unsetenv")) *1/ */
+/* 			 /1* 	do_unsetenv(arg, env); *1/ */
+/* 			else if (ft_strcmp(arg[i], "env") == 0) */
+/* 			 	do_env(env); */
+/* 			else if (ft_strcmp(arg[i], "exit") == 0) */
+/* 			 	do_exit(arg); */
+/* 			 else if(arg) */
+/* 			  	/1* ft_printf("minishell: command not found: %s\n",arg[i]); *1/ */
+/* 			  	printf("minishell: command not found: %s\n",arg[i]); */
+/* 			i++; */
+/* 		} */
+/* } */
+
+
+int		ft_strlen_double(char **str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return(i);
+}
+
+/* void	ft_input(void) */
+/* { */
+/* 	char	*path; */
+/* 	char	**pathreal; */
+/* 	int		last; */
+/* 	path = NULL; */
+/* 	last = 0; */
+/* 	pathreal = NULL; */
+/* 	path = getcwd(path, sizeof(path)); */
+/* 	if (ft_strcmp(path, "/") == 0) */
+/* 		 /1* ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, *1/ */
+/* 		 printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
+/* 		path, RESET, RED, RESET); */
+/* 	else */
+/* 	{ */
+/* 		pathreal = ft_strsplit(path, '/'); */
+/* 		last = ft_strlen_double(pathreal); */
+/* 		printf("%s[ %s ]%s%s[$➜] %s", GREEN, */
+/* 		/1* ft_printf("%s[ %s ]%s%s[$➜] %s", GREEN, *1/ */
+/* 		pathreal[last - 1], RESET, RED, RESET); */
+/* 	} */
+/* 	free(path); */
+/* 	free(pathreal); */
+/* } */
+

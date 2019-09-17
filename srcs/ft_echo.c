@@ -14,17 +14,17 @@
 
 static void print_echo(char **arg, char **env, int i, int k)
 {
-	while (arg[k][i] != '\0')
+	while (arg[k][i])
 	{
+		if (!arg[k][i])
+			break ;
 		if (IS_VAR(arg[k][i]))
 		{
 			check_env_var(arg[k], env);
-			break;
+			break ;
 		}
-		if(IS_QOUTE(arg[k][i]))
+		if (IS_QOUTE(arg[k][i]))
 			i++;
-		if(arg[k][i] == '\0')
-			break;
 		ft_putchar(arg[k][i]);
 		i++;
 	}
@@ -49,29 +49,18 @@ void	check_env_var(char *arg, char **env)
 
 void 	do_echo(char **arg, char **env)
 {
-	int		i;
 	int		k;
-	int		count;
 
-	i = 0;
 	k = 1;
-	count = 0;
-	while (arg[count])
-		count++;
 	while (arg[k])
 	{
-		print_echo(arg, env, i, k);
-		i = 0;
-		if (k != count)
-			ft_putchar(' ');
-		k++;
+		print_echo(arg, env, 0, k++);
+		ft_putchar(' ');
 	}
-	ft_putchar('\n');
+	ft_putstr("\b\n");
+	/* ft_putchar('\n'); */
 }
 
- 
- 
-  	
 void	mini_echo(char **argv)
 {
 	size_t i;
@@ -85,5 +74,5 @@ void	mini_echo(char **argv)
 	}
 	ft_putstr("\b\n");
 }
- 
+
 
