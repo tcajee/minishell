@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 14:48:27 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/17 17:26:00 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/17 17:55:58 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 #include "ft_printf.h"
 #include "ft_sh.h"
 #include "ft_stdlib.h"
-#include "minishell.h"
-
 
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
