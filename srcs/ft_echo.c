@@ -70,7 +70,6 @@ void 	do_echo(char **arg, char **env)
 }
 
  
-/* /1* {{{TITLE */
  
   	
 void	mini_echo(char **argv)
@@ -87,5 +86,4 @@ void	mini_echo(char **argv)
 	ft_putstr("\b\n");
 }
  
- /* * }}} *1/ */
 

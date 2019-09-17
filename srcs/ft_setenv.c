@@ -51,10 +51,6 @@ void	do_env(char **env)
 	}
 }
 
-/* /1* {{{TITLE */
- 
-  	
-
 void	ft_putenv(char **env)
 {
 	int i;
@@ -65,8 +61,6 @@ void	ft_putenv(char **env)
 		i++;
 	}	
 }
- 
- /* * }}} *1/ */
 
 void	do_setenv(char **arg, char ***env)
 {
@@ -125,9 +119,6 @@ void	do_setenv(char **arg, char ***env)
 
 
 
-/* /1* {{{TITLE */
- 
- 
 
 int     ft_tablen(char **tab)
 {
@@ -196,4 +187,3 @@ void    ft_setenv(char **tab, char *elem, char *data)
     ft_pushback(tab, &len);
 }
  
- /* * }}} *1/ */

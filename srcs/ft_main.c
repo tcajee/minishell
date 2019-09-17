@@ -135,8 +135,6 @@ char	**ft_strcpy_double(char **arr)
 /* } */
 
 
-/* /1* {{{TITLE */
-
 
 static int	find_quote(const char *str, int i)
 {
@@ -303,4 +301,3 @@ int		main(int argc, char **argv, char **envv)
 	return (0);
 }
 
- /* }}} *1/ */
