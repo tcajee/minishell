@@ -6,7 +6,7 @@
 /*   By: mbaloyi <mbaloyi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 18:30:20 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 18:37:17 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void bin_handler(char **argv, char ***env)
 	{
 		if (argv[0][0] != '/' && is_bin(argv))
 		{
-			path = ft_strjoin("/bin/", argv[0]);
+			path = ft_strjoin("/usr/bin/", argv[0]);
 			if (execve(path, argv, *env) == -1)
 				/* printf("minishell: No such file or directory: %s\n", path); */
 				ft_printf("cd: no such file or directory: %s\n", path);
@@ -71,6 +71,8 @@ static void bin_handler(char **argv, char ***env)
 
 static void call_handler(char **argv, char ***env)
 {
+	if (!argv[0])
+		return ;
 	if (ft_strcmp(argv[0], "echo") == 0)
 		do_echo(argv, *env);
 	else if (ft_strcmp(argv[0], "cd") == 0)
@@ -86,6 +88,8 @@ static void call_handler(char **argv, char ***env)
 		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
+	else if (argv[0] && !is_bin(argv))
+		ft_printf("minishell: %s: command not found\n", argv[0]);
 	else if (is_bin(argv) || argv[0][0] == '/')
 		bin_handler(argv, env);
 }
@@ -103,7 +107,7 @@ int		main(int argc, char **argv, char **envv)
 	{
 		ft_putstr("$> ");
 		input = readline("");
-		if (*input)
+		if (input && *input)
 		{
 			args = ft_strsplit(input, ' ');
 			call_handler(args, &env);
