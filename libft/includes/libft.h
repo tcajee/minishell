@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 14:48:27 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 15:36:16 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 16:59:20 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 # define LIBFT_H
 # define BUFF_SIZE 32
 
-#include <stdio.h>
-
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <wchar.h>
 # include <limits.h>
 
-#include "ft_printf.h"
-#include "ft_sh.h"
-#include "ft_stdlib.h"
+# include "ft_printf.h"
+# include "ft_sh.h"
+# include "ft_stdlib.h"
 
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
