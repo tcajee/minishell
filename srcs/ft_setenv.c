@@ -6,11 +6,23 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 11:55:44 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 16:32:33 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/includes/libft.h"
+
+void	do_env(char **env)
+{
+	int		i;
+	i = 0;
+	while (env[i])
+	{
+		/* ft_printf("%s\n", env[i]); */
+		printf("%s\n", env[i]);
+	 	i++;
+	}
+}
 
 void	ft_putenv(char **env)
 {
@@ -40,7 +52,7 @@ int		ft_findreplace(char **tab, char *elem, char *data)
 	len = ft_strlen(elem);
 	while (tab[i])
 	{
-		if (ft_strncmp(tab[i], elem, len) == 0 && elem[len + 1] == '=')
+		if (ft_strncmp(tab[i], elem, len) == 0)
 		{
 			ft_strdel(&tab[i]);
 			tmp = ft_strjoin(elem, "=");
@@ -62,7 +74,7 @@ void	ft_pushback(char **tab, int *len)
 	*len -= 1;
 	while (i < *len)
 	{
-		if (tab[i] == NULL  && tab[i + 1])
+		if (tab[i] == NULL && tab[i + 1])
 		{
 			tmp = tab[i];
 			tab[i] = tab[i + 1];
@@ -78,8 +90,21 @@ void	ft_setenv(char **tab, char *elem, char *data)
 
 	len = ft_tablen(tab);
 	ft_findreplace(tab, elem, data);
-	ft_pushback(tab, &len);
+	/* ft_pushback(tab, &len); */
 }
+
+
+
+
+
+
+
+
+//-----------
+
+
+
+
 
 static char		**set_new_env(char **env, char **arg, int num_arg)
 {
@@ -105,18 +130,6 @@ static char		**set_new_env(char **env, char **arg, int num_arg)
 	return (new);
 }
 
-
-void	do_env(char **env)
-{
-	int		i;
-	i = 0;
-	while (env[i])
-	{
-		/* ft_printf("%s\n", env[i]); */
-		printf("%s\n", env[i]);
-	 	i++;
-	}
-}
 
 void	do_setenv(char **arg, char ***env)
 {

@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 16:22:02 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 16:44:50 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char *ft_home(char **env)
 	int		i;
 
 	i = 0;
-	while(env[i] != NULL)
+	while(env[i])
 	{
 		home = ft_strsplit(env[i++], '=');
 		if (ft_strcmp(home[0], "HOME") == 0)
@@ -38,7 +38,7 @@ static char *ft_oldpwd(char **env)
 	int		i;
 
 	i = 0;
-	while(env[i] != NULL)
+	while(env[i])
 	{
 		home = ft_strsplit(env[i++], '=');
 		if (ft_strcmp(home[0], "OLDPWD") == 0)
@@ -81,17 +81,13 @@ int			ft_is_dir(char *dir)
 
 void	do_cd(char **arg, char **env)
 {
-	char	*new;
-	char	*old;
 	char	path[PATH_MAX];
 	char *temp;
+	char *old;
 
-	temp = NULL;
 	old = NULL;
 	old = getcwd(old, sizeof(old));
-
-	printf("old: %s\n", old);
-
+	temp = NULL;
 	if (!arg[1] || (ft_strcmp(arg[1], "--") == 0) || (ft_strcmp(arg[1], "$HOME") == 0) || (ft_strcmp(arg[1], "~") == 0))
 		chdir(temp = ft_home(env));
 	else if ((ft_strcmp(arg[1], "-") == 0) || (ft_strcmp(arg[1], "$OLDPWD") == 0))
@@ -104,12 +100,14 @@ void	do_cd(char **arg, char **env)
 	}
 	else if (ft_is_dir(arg[1]) == 1)
 		chdir(arg[1]);
-	new = NULL;
-	new = getcwd(new, sizeof(new));
 
-	printf("new: %s\n", new);
-
-	free(temp);
-	free(new);
+	ft_setenv(env, "OLDPWD", old);
 	free(old);
+	
+	old = NULL;
+	old = getcwd(old, sizeof(old));
+	ft_setenv(env, "PWD", old);
+	free(old);
+	
+	free(temp);
 }
