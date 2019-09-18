@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/17 16:45:53 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 11:54:53 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,12 @@ void	do_cd(char **arg, char **env)
 	else
 		printf("cd: no such file or directory: %s\n", arg[1]);
 		/* ft_printf("cd: no such file or directory: %s\n", arg[1]); */
-	ft_setenv(old, &env);
+	do_setenv(old, &env);
+	/* ft_setenv(old, &env); */
 	new_dir = getcwd(path, sizeof(new_dir));
 	cwd[2] = ft_strdup(new_dir);
-	ft_setenv(cwd, &env);
+	do_setenv(cwd, &env);
+	/* ft_setenv(cwd, &env); */
 	free(new_dir);
 	free(path);
 }
