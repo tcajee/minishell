@@ -6,17 +6,66 @@
 /*   By: mbaloyi <mbaloyi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 17:20:19 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 18:22:04 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/includes/libft.h"
 
+int	is_bin(char **argv)
+{
+	int		i;
+	char	*bins[] = {"csh", "ed", "launchctl", "mv", "rmdir", "tcsh",
+		"bash", "date", "expr", "link", "pax", "sh", "test", "cat",
+		"dd", "hostname", "ln", "ps", "sleep", "unlink", "chmod",
+		"df", "kill", "ls", "pwd", "stty", "wait4path", "cp",
+		"echo", "ksh", "mkdir", "rm", "sync", "zsh"};
+
+	i = 0;
+	while (bins[i])
+	{
+		if (ft_strcmp(argv[0], bins[i++]) == 0)
+			return (1);
+	}
+	return (0);
+}
+
 static void bin_handler(char **argv, char ***env)
 {
-	(void)(argv && env);
-	/* ft_printf("minishell: command not found: %s\n",arg[i]); */
-	/* printf("minishell: command not found: %s\n",argv[0]); */
+	pid_t	pid;
+	pid_t	wpid;
+	int		status;
+	char	*path;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (argv[0][0] != '/' && is_bin(argv))
+		{
+			path = ft_strjoin("/bin/", argv[0]);
+			if (execve(path, argv, *env) == -1)
+				/* printf("minishell: No such file or directory: %s\n", path); */
+				ft_printf("cd: no such file or directory: %s\n", path);
+			if (path)
+				free(path);
+			return;
+		}
+		else if (execve(argv[0], argv, *env) == -1)
+			/* printf("minishell: No such file or directory: %s\n", argv[0]); */
+			ft_printf("cd: no such file or directory: %s\n", argv[0]);
+		return ;
+	}
+	else if (pid < 0)
+		perror("lsh");
+	else
+	{
+		if (!WIFEXITED(status) && !WIFSIGNALED(status))
+		{
+			wpid = waitpid(pid, &status, WUNTRACED);
+			while (!WIFEXITED(status) && !WIFSIGNALED(status))
+				wpid = waitpid(pid, &status, WUNTRACED);
+		}
+	}
 	return ;
 }
 
@@ -37,7 +86,7 @@ static void call_handler(char **argv, char ***env)
 		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
-	else if (argv[0][0] == '/')
+	else if (is_bin(argv) || argv[0][0] == '/')
 		bin_handler(argv, env);
 }
 
@@ -50,18 +99,19 @@ int		main(int argc, char **argv, char **envv)
 	(void)(argc && argv);
 	input = NULL;
 	env = ft_tabdup(envv);
-	while ((input = readline("$> ")) != NULL)
+	while ((input = readline("")) != NULL)
+	/* while ((input = readline("$> ")) != NULL) */
 	{
-		args = ft_strsplit(input, ' ');
 		if (*input)
 		{
+			args = ft_strsplit(input, ' ');
 			call_handler(args, &env);
 			ft_tabfree(args);
 		}
+		ft_printf("$> ");
 	}
 	if (env)
 		free(&env);
 	return (0);
 }
-
 

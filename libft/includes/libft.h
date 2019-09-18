@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 14:48:27 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 16:59:20 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 17:33:27 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <wchar.h>
 # include <limits.h>
+# include <sys/wait.h>
 
 # include "ft_printf.h"
 # include "ft_sh.h"
