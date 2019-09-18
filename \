@@ -6,7 +6,7 @@
 /*   By: mbaloyi <mbaloyi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 18:30:20 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 18:25:09 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,17 @@ int		main(int argc, char **argv, char **envv)
 	(void)(argc && argv);
 	input = NULL;
 	env = ft_tabdup(envv);
-	while (1)
+	ft_printf("$> ");
+	while ((input = readline("")) != NULL)
 	{
-		ft_putstr("$> ");
-		input = readline("");
+		/* ft_printf("\b\b"); */
 		if (*input)
 		{
 			args = ft_strsplit(input, ' ');
 			call_handler(args, &env);
 			ft_tabfree(args);
 		}
+		/* ft_printf("\b\b"); */
 	}
 	if (env)
 		free(&env);
