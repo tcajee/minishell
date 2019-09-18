@@ -21,7 +21,6 @@ int		ft_findremove(char **tab, char *elem)
 	if (!elem)
 	{
 		printf("No variable entered\n");
-		/* ft_printf("No variable entered\n"); */
 		return (-1);
 	}
 	len = ft_strlen(elem);
@@ -37,6 +36,36 @@ int		ft_findremove(char **tab, char *elem)
 	return (0);
 }
 
+int     ft_tablen(char **tab)
+{
+	int len;
+
+	len = 0;
+	while (tab[len])
+		len++;
+	return (len);
+}
+
+
+void        ft_pushback(char **tab, int *len)
+{
+    int i;
+    char *tmp;
+
+    i = 0;
+    *len -= 1;
+    while (i < *len)
+    {
+        if (tab[i] == NULL  && tab[i + 1])
+        {
+            tmp = tab[i];
+            tab[i] = tab[i + 1];
+            tab[i + 1] = tmp;
+        }
+        i++;
+    }
+}
+
 void	ft_unsetenv(char **tab, char *elem)
 {
 	int len;
@@ -44,4 +73,13 @@ void	ft_unsetenv(char **tab, char *elem)
 	len = ft_tablen(tab);
 	ft_findremove(tab, elem);
 	ft_pushback(tab, &len);
+}
+
+void    do_unsetenv(char **arg, char ***env)
+{
+    char *elem;
+
+	elem = ft_strdup(arg[1]);
+	ft_unsetenv(*env, elem);
+	free(elem);
 }
