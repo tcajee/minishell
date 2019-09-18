@@ -6,7 +6,7 @@
 #    By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/29 13:11:02 by tcajee            #+#    #+#              #
-#    Updated: 2019/09/13 13:01:41 by tcajee           ###   ########.fr        #
+#    Updated: 2019/09/18 17:03:46 by tcajee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,11 +39,11 @@ $(BUILDDIR):
 
 # Objects rule
 $(BUILDDIR)%.o:$(SRCDIR)%.c
-	@$(CC) $(CFLAGS) -I$(LIBINC) -o $@ -c $<
+	@$(CC) $(CFLAGS) -I$(LIBINC) -o $@ -c $< 
 
 # Project file rule
 $(NAME): $(BUILDOBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(BUILDOBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(NAME) $(BUILDOBJS) $(LIBFT) -lreadline
 	@echo "Compiled: $(NAME)"
 
 # Libft rule

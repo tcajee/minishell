@@ -6,7 +6,7 @@
 /*   By: mbaloyi <mbaloyi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 18:56:02 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 18:25:09 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static void bin_handler(char **argv, char ***env)
 
 static void call_handler(char **argv, char ***env)
 {
-	if (!argv[0])
-		return ;
 	if (ft_strcmp(argv[0], "echo") == 0)
 		do_echo(argv, *env);
 	else if (ft_strcmp(argv[0], "cd") == 0)
@@ -88,8 +86,6 @@ static void call_handler(char **argv, char ***env)
 		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
-	else if (argv[0] && !is_bin(argv))
-		ft_printf("minishell: %s: command not found\n", argv[0]);
 	else if (is_bin(argv) || argv[0][0] == '/')
 		bin_handler(argv, env);
 }
@@ -103,16 +99,17 @@ int		main(int argc, char **argv, char **envv)
 	(void)(argc && argv);
 	input = NULL;
 	env = ft_tabdup(envv);
-	while (1)
+	ft_printf("$> ");
+	while ((input = readline("")) != NULL)
 	{
-		ft_putstr("$> ");
-		input = readline("");
-		if (input && *input)
+		/* ft_printf("\b\b"); */
+		if (*input)
 		{
 			args = ft_strsplit(input, ' ');
 			call_handler(args, &env);
 			ft_tabfree(args);
 		}
+		/* ft_printf("\b\b"); */
 	}
 	if (env)
 		free(&env);
