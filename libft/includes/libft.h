@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/18 14:48:27 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/17 17:55:58 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/18 15:36:16 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <wchar.h>
+# include <limits.h>
 
 #include "ft_printf.h"
 #include "ft_sh.h"
