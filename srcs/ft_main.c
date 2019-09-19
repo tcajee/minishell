@@ -76,7 +76,7 @@ static void call_handler(char **argv, char ***env)
 	else if (ft_strcmp(argv[0], "cd") == 0)
 		do_cd(argv, *env);
 	else if (ft_strcmp(argv[0], "setenv") == 0)
-		ft_setenv(*env, argv[1], "hellO");
+		ft_setenv(*env, argv[1], argv[2]);
 	else if (ft_strcmp(argv[0], "env") == 0)
 		ft_putenv(*env);
 	else if (ft_strcmp(argv[0], "unsetenv") == 0)
@@ -109,11 +109,10 @@ int		main(int argc, char **argv, char **envv)
 		{
 			args = ft_strsplit(input, ' ');
 			call_handler(args, &env);
-			ft_tabfree(args);
+			ft_tabfree(args);		
 		}
 	}
 	if (env)
 		free(&env);
 	return (0);
 }
-
