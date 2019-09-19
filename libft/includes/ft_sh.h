@@ -47,7 +47,8 @@ void	ft_putenv(char **env);
 void	ft_setenv(char **env, char *name, char *data);
 int		ft_tabsearch(char **tab, char *elem);
 char	**ft_strqotsplit(const char *str);
-void	ft_unsetenv(char **tab, char *elem);
 void	ft_pushback(char **tab, int *len);
+void	ft_unsetenv(char **env, char *arg);
+
 
 #endif
