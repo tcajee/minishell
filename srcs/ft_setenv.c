@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/19 12:29:55 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/19 16:03:31 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,23 @@ void	ft_pushback(char **tab, int *len)
 		i++;
 	}
 }
+
+ void    ft_newenv(char **tab, char *elem, char *data)
+ {
+     int len;
+     char *tmp;
+     char *ret;
+
+     tmp = ft_strcat(elem, "=");
+     len = ft_tablen(tab);
+     if (tab[len] == NULL)
+     {
+         ret = ft_strcat(tmp, data);
+         tab[len] = ft_strdup(ret);
+         tab[len + 1] = NULL;
+     }
+ }
+
 
 void	ft_setenv(char **tab, char *elem, char *data)
 {
