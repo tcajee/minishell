@@ -44,7 +44,6 @@ void	ft_unsetenv(char **env, char *arg)
 
 	elem = ft_strcat(arg, "=");
 	len = ft_tablen(env);
-	ft_findremove(env, arg);
+	ft_findremove(env, elem);
 	ft_pushback(env, &len);
-	free(elem);
 }
