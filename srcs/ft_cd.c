@@ -57,14 +57,14 @@ int			ft_is_dir(char *dir)
 	struct stat		s_is;
 
 	if (lstat(dir, &s_is) < 0)
-		ft_printf("cd: no such file or directory: %s\n", dir);
+		printf("cd: no such file or directory: %s\n", dir);
 	else if ((s_is.st_mode & S_IFMT) == S_IFLNK)
 		return (2);
 	else if ((s_is.st_mode & S_IFMT) == S_IFDIR)
 	{
 		if ((!(s_is.st_mode & S_IRGRP) && !(s_is.st_mode & S_IRUSR) && !(s_is.st_mode & S_IROTH)))
 		{
-			ft_printf("minishell: cd: %s: Permission denied\n", dir);
+			printf("minishell: cd: %s: Permission denied\n", dir);
 			return (0);
 		}
 		return (1);

@@ -18,7 +18,7 @@ void	ft_putenv(char **env)
 
 	i = 0;
 	while (env[i])
-		ft_printf("%s\n", env[i++]);
+		printf("%s\n", env[i++]);
 }
 
 int		ft_findreplace(char **tab, char *elem, char *data)
@@ -31,7 +31,7 @@ int		ft_findreplace(char **tab, char *elem, char *data)
 	i = 0;
 	if (!elem)
 	{
-		ft_printf("No variable entered\n");
+		printf("No variable entered\n");
 		return (-1);
 	}
 	len = ft_strlen(elem);

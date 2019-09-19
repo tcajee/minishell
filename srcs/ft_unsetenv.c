@@ -20,7 +20,7 @@ int		ft_findremove(char **tab, char *elem)
 	i = 0;
 	if (!elem)
 	{
-		ft_printf("No variable entered\n");
+		printf("No variable entered\n");
 		return (-1);
 	}
 	

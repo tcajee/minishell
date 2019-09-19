@@ -37,6 +37,7 @@ static void bin_handler(char **argv, char ***env)
 	int		status;
 	char	*path;
 
+	status = 0;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -44,13 +45,13 @@ static void bin_handler(char **argv, char ***env)
 		{
 			path = ft_strjoin("/bin/", argv[0]);
 			if (path && execve(path, argv, *env) == -1)
-				ft_printf("cd: no such file or directory: %s\n", path);
+				printf("cd: no such file or directory: %s\n", path);
 			else if (path)
 				free(path);
 			return;
 		}
 		else if (execve(argv[0], argv, *env) == -1)
-			ft_printf("cd: no such file or directory: %s\n", argv[0]);
+			printf("cd: no such file or directory: %s\n", argv[0]);
 		return ;
 	}
 	else if (pid < 0)
@@ -89,7 +90,7 @@ static void call_handler(char **argv, char ***env)
 	else if (argv[0][0] == '/' || is_bin(argv))
 		bin_handler(argv, env);
 	else if (argv[0])
-		ft_printf("minishell: %s: command not found\n", argv[0]);
+		printf("minishell: %s: command not found\n", argv[0]);
 }
 
 int		main(int argc, char **argv, char **envv)
