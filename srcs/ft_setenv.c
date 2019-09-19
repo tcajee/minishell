@@ -43,6 +43,7 @@ int		ft_findreplace(char **tab, char *elem, char *data)
 			tmp = ft_strjoin(elem, "=");
 			ret = ft_strjoin(tmp, data);
 			tab[i] = ft_strdup(ret);
+			free(tmp);
 			return (1);
 		}
 		i++;
@@ -68,13 +69,30 @@ void	ft_pushback(char **tab, int *len)
 		i++;
 	}
 }
+void	ft_newenv(char **tab, char *elem, char *data)
+{	
+	int len;
+	char *tmp;
+	char *ret;
 
+	tmp = ft_strcat(elem, "=");
+	len = ft_tablen(tab);
+	if (tab[len] == NULL)
+	{
+		ret = ft_strcat(tmp, data);
+		tab[len] = ft_strdup(ret);  
+		tab[len + 1] = NULL;
+	}
+}
 void	ft_setenv(char **tab, char *elem, char *data)
 {
 	int len;
 
 	len = ft_tablen(tab);
-	ft_findreplace(tab, elem, data);
+	if (ft_findreplace(tab, elem, data) == 0)
+	{
+		ft_newenv(tab, elem, data);
+	}
 	/* ft_pushback(tab, &len); */
 	ft_pushback(tab, &len);
 }
