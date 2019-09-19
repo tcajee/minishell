@@ -6,7 +6,7 @@
 /*   By: mbaloyi <mbaloyi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/18 18:56:02 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/19 12:28:00 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,12 @@ static void bin_handler(char **argv, char ***env)
 		{
 			path = ft_strjoin("/bin/", argv[0]);
 			if (execve(path, argv, *env) == -1)
-				/* printf("minishell: No such file or directory: %s\n", path); */
 				ft_printf("cd: no such file or directory: %s\n", path);
 			if (path)
 				free(path);
 			return;
 		}
 		else if (execve(argv[0], argv, *env) == -1)
-			/* printf("minishell: No such file or directory: %s\n", argv[0]); */
 			ft_printf("cd: no such file or directory: %s\n", argv[0]);
 		return ;
 	}

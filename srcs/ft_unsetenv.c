@@ -6,7 +6,7 @@
 /*   By: skorac <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/25 11:03:34 by skorac            #+#    #+#             */
-/*   Updated: 2019/09/17 17:50:57 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/19 12:30:09 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		ft_findremove(char **tab, char *elem)
 	i = 0;
 	if (!elem)
 	{
-		printf("No variable entered\n");
+		ft_printf("No variable entered\n");
 		return (-1);
 	}
 	

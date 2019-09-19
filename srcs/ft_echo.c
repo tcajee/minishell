@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/17 17:27:09 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/19 12:30:50 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ void	check_env_var(char *arg, char **env)
 	i = 0;
 	while(env[i])
 	{
-		env_var = ft_strsplit(env[i], '=');
+		env_var = ft_strsplit(env[i++], '=');
 		if (ft_strcmp(env_var[0], arg + 1) == 0)
-			printf("%s", env_var[1]);
-			/* ft_printf("%s", env_var[1]); */
-		i++;
+			ft_printf("%s", env_var[1]);
 	}
 }
 
