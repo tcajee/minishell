@@ -64,15 +64,15 @@ static void	fill_array(char **result, char const *str)
 		if (str[i] == '\"')
 		{
 			start = (char *)str + i++ + 1;
-			while (str[i] && (str[i] != '\"' || str[i - 1] == '\''))
+			while (str[i] && (str[i] != '\"' || str[i] == '\''))
 				i++;
 			result[current_word] = *ft_strsplit(start, str + i-- - start);
 			current_word++;
 		}
-		else if ((str[i]) != ' ')
+		else if ((str[i]) == ' ')
 		{
 			start = (char *)str + i;
-			while ((str[i]) != ' '  && str[i])
+			while ((str[i]) != '\"'  && str[i])
 				i++;
 			result[current_word] = ft_strndup(start, str + i-- - start);
 			current_word++;
@@ -89,9 +89,13 @@ char		**ft_strqotsplit(char const *str)
 		return (NULL);
 	if (!(words = count_words(str)))
 		return (NULL);
-	result = malloc(sizeof(char *) * (words + 1));
+	result = ft_memalloc(sizeof(char *) * (words + 1));
 	if (!result)
 		return (NULL);
 	fill_array(result, str);
+	for(int i = 0; i < 5; i++)
+	{
+		printf("%s\n",result[i]);
+	} 
 	return (result);
 }
