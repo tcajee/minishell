@@ -71,17 +71,17 @@ static void call_handler(char **argv, char ***env)
 {
 	if (!argv[0])
 		return ;
-	if (ft_strcmp(argv[0], "echo") == 0)
+	if ((ft_strcmp(argv[0], "echo") == 0) || (ft_strcmp(argv[0], "/usr/bin/echo") == 0))
 		do_echo(argv, *env);
-	else if (ft_strcmp(argv[0], "cd") == 0)
+	else if (ft_strcmp(argv[0], "cd") == 0 || (ft_strcmp(argv[0], "/usr/bin/cd") == 0))
 		do_cd(argv, *env);
-	else if (ft_strcmp(argv[0], "setenv") == 0)
+	else if (ft_strcmp(argv[0], "setenv") == 0 || (ft_strcmp(argv[0], "/usr/bin/setenv") == 0))
 		ft_setenv(*env, argv[1], "hellO");
-	else if (ft_strcmp(argv[0], "env") == 0)
+	else if (ft_strcmp(argv[0], "env") == 0 || (ft_strcmp(argv[0], "/usr/bin/env") == 0))
 		ft_putenv(*env);
-	else if (ft_strcmp(argv[0], "unsetenv") == 0)
+	else if (ft_strcmp(argv[0], "unsetenv") == 0 || (ft_strcmp(argv[0], "/usr/bin/unsetenv") == 0)) 
 		ft_unsetenv(*env, argv[1]);
-	else if (ft_strcmp(argv[0], "exit") == 0)
+	else if (ft_strcmp(argv[0], "exit") == 0 || (ft_strcmp(argv[0], "/usr/bin/exit") == 0))
 	{
 		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
