@@ -36,7 +36,7 @@ echo "BUILTINS"
 read -p "Press enter to continue"
 
 echo "$> exit"
-echo "$> exit" >&3
+echo "exit" >&3
 echo "The program must terminate proprely and give back the parent's shell. Run the minishell again."
 echo "Launching minishell..."
 echo "./minishell" >&3
