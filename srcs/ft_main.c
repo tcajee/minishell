@@ -19,10 +19,10 @@ int	is_bin(char **argv)
 		"bash", "date", "expr", "link", "pax", "sh", "test", "cat",
 		"dd", "hostname", "ln", "ps", "sleep", "unlink", "chmod",
 		"df", "kill", "ls", "pwd", "stty", "wait4path", "cp",
-		"echo", "ksh", "mkdir", "rm", "sync", "zsh"};
+		"echo", "ksh", "mkdir", "rm", "sync", "zsh", "\0"};
 
 	i = 0;
-	while (bins[i])
+	while (bins[i][0])
 	{
 		if (ft_strcmp(argv[0], bins[i++]) == 0)
 			return (1);
@@ -43,9 +43,9 @@ static void bin_handler(char **argv, char ***env)
 		if (argv[0][0] != '/' && is_bin(argv))
 		{
 			path = ft_strjoin("/bin/", argv[0]);
-			if (execve(path, argv, *env) == -1)
+			if (path && execve(path, argv, *env) == -1)
 				ft_printf("cd: no such file or directory: %s\n", path);
-			if (path)
+			else if (path)
 				free(path);
 			return;
 		}
@@ -71,25 +71,25 @@ static void call_handler(char **argv, char ***env)
 {
 	if (!argv[0])
 		return ;
-	if (ft_strcmp(argv[0], "echo") == 0)
+	if ((ft_strcmp(argv[0], "echo") == 0) || (ft_strcmp(argv[0], "/usr/bin/echo") == 0))
 		do_echo(argv, *env);
-	else if (ft_strcmp(argv[0], "cd") == 0)
+	else if (ft_strcmp(argv[0], "cd") == 0 || (ft_strcmp(argv[0], "/usr/bin/cd") == 0))
 		do_cd(argv, *env);
-	else if (ft_strcmp(argv[0], "setenv") == 0)
+	else if (ft_strcmp(argv[0], "setenv") == 0 || (ft_strcmp(argv[0], "/usr/bin/setenv") == 0))
 		ft_setenv(*env, argv[1], "hellO");
-	else if (ft_strcmp(argv[0], "env") == 0)
+	else if (ft_strcmp(argv[0], "env") == 0 || (ft_strcmp(argv[0], "/usr/bin/env") == 0))
 		ft_putenv(*env);
-	else if (ft_strcmp(argv[0], "unsetenv") == 0)
+	else if (ft_strcmp(argv[0], "unsetenv") == 0 || (ft_strcmp(argv[0], "/usr/bin/unsetenv") == 0)) 
 		ft_unsetenv(*env, argv[1]);
-	else if (ft_strcmp(argv[0], "exit") == 0)
+	else if (ft_strcmp(argv[0], "exit") == 0 || (ft_strcmp(argv[0], "/usr/bin/exit") == 0))
 	{
 		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
-	else if (argv[0] && !is_bin(argv))
-		ft_printf("minishell: %s: command not found\n", argv[0]);
-	else if (is_bin(argv) || argv[0][0] == '/')
+	else if (argv[0][0] == '/' || is_bin(argv))
 		bin_handler(argv, env);
+	else if (argv[0])
+		ft_printf("minishell: %s: command not found\n", argv[0]);
 }
 
 int		main(int argc, char **argv, char **envv)
