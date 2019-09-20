@@ -44,8 +44,7 @@ void	ft_unsetenv(char **env, char *arg)
 
 	elem = ft_strcat(arg, "=");
 	len = ft_tablen(env);
-	
 	if (ft_findremove(env, arg) == 0)
-		ft_putendl("Value not found");
+		ft_putendl("Variable not found");
 	ft_pushback(env, &len);
 }
