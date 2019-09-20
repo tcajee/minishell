@@ -91,7 +91,8 @@ void	ft_setenv(char **tab, char *elem, char *data)
 	int len;
 
 	len = ft_tablen(tab);
-	ft_findreplace(tab, elem, data);
+	if (ft_findreplace(tab, elem, data) == 0)
+		ft_newenv(tab, elem, data);
 	/* ft_pushback(tab, &len); */
 	ft_pushback(tab, &len);
 }
