@@ -77,6 +77,10 @@ void	ft_pushback(char **tab, int *len)
 
      tmp = ft_strcat(elem, "=");
      len = ft_tablen(tab);
+	 if (!data){
+		 printf("No variable data entered\n");
+		 return ;
+	 }
      if (tab[len] == NULL)
      {
          ret = ft_strcat(tmp, data);
@@ -88,11 +92,19 @@ void	ft_pushback(char **tab, int *len)
 
 void	ft_setenv(char **tab, char *elem, char *data)
 {
-	int len;
+	char **elems;
 
-	len = ft_tablen(tab);
-	if (ft_findreplace(tab, elem, data) == 0)
-		ft_newenv(tab, elem, data);
-	/* ft_pushback(tab, &len); */
-	ft_pushback(tab, &len);
+	elems = NULL;
+	if (data == NULL)
+	{
+		elems = ft_strsplit(elem, '=');
+		if (elems != NULL)
+		{
+			if (ft_findreplace(tab, elems[0], elems[1]) == 0)
+				ft_newenv(tab,elems[0], elems[1]);
+		}
+	}
+	else
+		if (ft_findreplace(tab, elem, data) == 0)
+			ft_newenv(tab, elem, data);
 }
