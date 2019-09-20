@@ -77,7 +77,7 @@ static void call_handler(char **argv, char ***env)
 	else if (ft_strcmp(argv[0], "cd") == 0 || (ft_strcmp(argv[0], "/usr/bin/cd") == 0))
 		do_cd(argv, *env);
 	else if (ft_strcmp(argv[0], "setenv") == 0 || (ft_strcmp(argv[0], "/usr/bin/setenv") == 0))
-		ft_setenv(*env, argv[1], "hellO");
+		ft_setenv(*env, argv[1], argv[2]);
 	else if (ft_strcmp(argv[0], "env") == 0 || (ft_strcmp(argv[0], "/usr/bin/env") == 0))
 		ft_putenv(*env);
 	else if (ft_strcmp(argv[0], "unsetenv") == 0 || (ft_strcmp(argv[0], "/usr/bin/unsetenv") == 0)) 
