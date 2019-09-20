@@ -1,6 +1,6 @@
 #! /bin/bash
 
-exec 3>./minififo
+exec 3>./test_pipe
 
 echo "Launching minishell..."
 echo "./minishell" >&3

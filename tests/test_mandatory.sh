@@ -1,6 +1,6 @@
 #! /bin/bash
 
-exec 3>./minififo
+exec 3>./test_pipe
 
 echo "Launching minishell..."
 echo "./minishell" >&3
@@ -55,12 +55,12 @@ echo "The message must be properly displayed."
 
 read -p "Press enter to continue"
 
-# echo "$> cd /goinfre/$USER/Desktop"
+echo "$> cd /goinfre/$USER/Desktop"
+echo "COMMENETED"
 # echo "cd /goinfre/$USER/Desktop" >&3
 
 echo "$> cd /p"
 echo "cd /" >&3
-
 read -p "Press enter to continue"
 
 echo "$> /bin/pwd"
@@ -148,10 +148,10 @@ its value bar."
 read -p "Press enter to continue"
 
 echo "$> unsetenv FOO"
-
 echo "COMMENTED"
 # echo "unsetenv FOO" >&3
-# read -p "Press enter to continue"
+
+read -p "Press enter to continue"
 
 echo "$> env"
 echo "env" >&3

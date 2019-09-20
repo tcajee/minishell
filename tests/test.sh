@@ -1,5 +1,5 @@
 #! /bin/bash
 
-exec 3>./minififo
-./minishell >&3
+exec 3>./test_pipe
+echo "./minishell" >&3
 echo "echo test" >&3
