@@ -28,8 +28,8 @@ echo "must display a FOO variable with the value bar."
 
 read -p "Press enter to continue"
 
-echo "$> echo $FOO"
-echo "echo \$FOO" >&3
+echo "$> echo \$FOO"
+echo "echo '\$FOO'" >&3
 echo "The value bar must be displayed."
 
 read -p "Press enter to continue"

@@ -20,7 +20,7 @@ echo "The message must be properly displayed."
 read -p "Press enter to continue"
 
 echo "$> echo $HOME"
-echo "echo \$HOME" >&3
+echo "echo $HOME" >&3
 echo "The value bar must be displayed."
 
 read -p "Press enter to continue"
