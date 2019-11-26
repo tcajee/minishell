@@ -101,6 +101,5 @@ void	do_cd(char **arg, char **env)
 	old = getcwd(old, sizeof(old));
 	ft_setenv(env, "PWD", old);
 	free(old);
-	
 	free(temp);
 }

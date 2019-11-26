@@ -33,7 +33,7 @@ int	is_bin(char **argv)
 static void bin_handler(char **argv, char ***env)
 {
 	pid_t	pid;
-	pid_t	wpid;
+	// pid_t	wpid;
 	int		status;
 	char	*path;
 
@@ -52,18 +52,7 @@ static void bin_handler(char **argv, char ***env)
 		}
 		else if (execve(argv[0], argv, *env) == -1)
 			printf("cd: no such file or directory: %s\n", argv[0]);
-		return ;
-	}
-	else if (pid < 0)
-		perror("lsh");
-	else
-	{
-		if (!WIFEXITED(status) && !WIFSIGNALED(status))
-		{
-			wpid = waitpid(pid, &status, WUNTRACED);
-			while (!WIFEXITED(status) && !WIFSIGNALED(status))
-				wpid = waitpid(pid, &status, WUNTRACED);
-		}
+		// return ;
 	}
 	return ;
 }

@@ -41,7 +41,8 @@ void	check_env_var(char *arg, char **env)
 	{
 		env_var = ft_strsplit(env[i++], '=');
 		if (ft_strcmp(env_var[0], arg + 1) == 0)
-			printf("%s", env_var[1]);
+			ft_putstr(env_var[1]);
+
 	}
 }
 
@@ -56,21 +57,4 @@ void 	do_echo(char **arg, char **env)
 		ft_putchar(' ');
 	}
 	ft_putstr("\b\n");
-	/* ft_putchar('\n'); */
 }
-
-void	mini_echo(char **argv)
-{
-	size_t i;
-
-	i = 1;
-	while (argv[i])
-	{
-		ft_putstr((argv[i]));
-		ft_putchar(' ');
-		i++;
-	}
-	ft_putstr("\b\n");
-}
-
-
