@@ -45,3 +45,50 @@ void	ft_unsetenv(char **env, char *arg)
 		ft_putendl("Variable not found");
 	ft_pushback(env, &len);
 }
+
+char	*ft_find_variable(char *path)
+{
+		char **tab;
+		char *tmp;
+		int i;
+
+		i = 0;
+		tab = ft_tabdup(ft_strsplit(path, '/'));
+		while (tab[i]){
+			if (tab[i][0] == '$')
+				tmp = ft_strdup(tab[i]);				
+			i++;
+		}
+		ft_tabfree(tab);
+		return(tmp);
+}
+
+char	*ft_getvar(char *path, char **env)
+{
+	char *var;
+	int i;
+	size_t len;
+	char **tab;
+	char *tmp;
+
+	i = 0;
+	tab = ft_tabdup(env);
+	len = ft_strlen(var);	
+	var = ft_strsub(ft_find_variable(path), 1, ft_strlen(var));
+	while (tab[i])
+	{
+		if (ft_strncmp(tab[i], var, len) == 0)
+			tmp = ft_strdup(tab[i]);
+		i++;
+	}
+	free(tab);
+	return(tmp);
+}
+
+char	*ft_replacevar(char *path, char **env)
+{ 
+	
+
+
+}
+
