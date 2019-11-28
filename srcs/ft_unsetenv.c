@@ -92,15 +92,14 @@ char	**ft_substitute(char *path, char **env)
 
 
 	i = 0;
-	var = ft_strjoin(ft_find_variable(path), "$");
+	var = ft_strjoin("$", ft_find_variable(path));
 	value = ft_getvar(path, env);
 	tab = ft_strsplit(path, '/');
 	while (tab[i])
 	{
-		if (ft_strcmp(tab[i], var) == 0)
-		{
+		if (ft_strcmp(tab[i], var) == 0){
 			ft_strdel(&tab[i]);
-			tab[i] = value;
+			tab[i] = ft_strdup(value);	
 		}
 		i++;
 	}
@@ -109,6 +108,7 @@ char	**ft_substitute(char *path, char **env)
 
 char  *handler(char *path, char **env)
 {
+
 	return(ft_newpath(ft_substitute(path, env)));
 }
 
@@ -118,9 +118,11 @@ char *ft_newpath(char **tab)
 	char *tmp;
 	
 	i = 0;
-	while(tab[i])
-	{
+	tmp = "/";
+	while(tab[i] != '\0')
+	{	
 		tmp = ft_strjoin(tmp, tab[i]);
+		tmp = ft_strjoin(tmp, "/");
 		i++;
 	}
 	return tmp;
