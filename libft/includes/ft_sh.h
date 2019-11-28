@@ -49,6 +49,10 @@ int		ft_tabsearch(char **tab, char *elem);
 char	**ft_strqotsplit(const char *str);
 void	ft_pushback(char **tab, int *len);
 void	ft_unsetenv(char **env, char *arg);
-
+char	*ft_find_variable(char *path);
+char	*ft_getvar(char *path, char **env);
+char	**ft_substitute(char *path, char **env);
+char    *ft_newpath(char **tab);
+char  *handler(char *path, char **env);
 
 #endif
