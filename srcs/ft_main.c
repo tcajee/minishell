@@ -89,8 +89,9 @@ int		main(int argc, char **argv, char **envv)
 	char **args;
 
 	(void)(argc && argv);
-	input = NULL;
+		input = NULL;
 	env = ft_tabdup(envv);
+	printf("%s", handler("/goinfre/$USER/Desktop", envv));
 	while (1)
 	{
 		ft_putstr("$> ");
@@ -104,6 +105,8 @@ int		main(int argc, char **argv, char **envv)
 	}
 	if (env)
 		free(&env);
-	return (0);
+	// return (0);
+	// printf("%s", ft_find_variable("/goinfre/$USER/Desktop"));
+	return(0);
 }
 

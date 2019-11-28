@@ -48,19 +48,16 @@ void	ft_unsetenv(char **env, char *arg)
 
 char	*ft_find_variable(char *path)
 {
-		char **tab;
-		char *tmp;
-		int i;
+	char *tmp;
+	char **tab;
+	char *ret;
 
-		i = 0;
-		tab = ft_tabdup(ft_strsplit(path, '/'));
-		while (tab[i]){
-			if (tab[i][0] == '$')
-				tmp = ft_strdup(tab[i]);				
-			i++;
-		}
-		ft_tabfree(tab);
-		return(tmp);
+	tmp = ft_strstr(path, "$");
+	tab = ft_strsplit(tmp, '/');
+	tmp = ft_strdup(tab[0]);
+	ft_tabfree(tab);
+	ret = ft_strstr(tmp, &tmp[1]);
+	return ret;
 }
 
 char	*ft_getvar(char *path, char **env)
@@ -68,27 +65,64 @@ char	*ft_getvar(char *path, char **env)
 	char *var;
 	int i;
 	size_t len;
-	char **tab;
-	char *tmp;
-
+	char *ret;
+	
+	var = ft_find_variable(path);
 	i = 0;
-	tab = ft_tabdup(env);
-	len = ft_strlen(var);	
-	var = ft_strsub(ft_find_variable(path), 1, ft_strlen(var));
-	while (tab[i])
+	len = ft_strlen(var);
+	while (env[i])
 	{
-		if (ft_strncmp(tab[i], var, len) == 0)
-			tmp = ft_strdup(tab[i]);
+		if (ft_strncmp(env[i], var, len) == 0)
+		{	
+			ret = ft_strstr(env[i], "=");
+			var = ft_strstr(ret, &ret[1]);
+			return(var);
+		}
 		i++;
 	}
-	free(tab);
-	return(tmp);
+	return NULL;
 }
 
-char	*ft_replacevar(char *path, char **env)
-{ 
+char	**ft_substitute(char *path, char **env)
+{
+	int i;
+	char *var;
+	char *value;
+	char **tab;
+
+
+	i = 0;
+	var = ft_strjoin(ft_find_variable(path), "$");
+	value = ft_getvar(path, env);
+	tab = ft_strsplit(path, '/');
+	while (tab[i])
+	{
+		if (ft_strcmp(tab[i], var) == 0)
+		{
+			ft_strdel(&tab[i]);
+			tab[i] = value;
+		}
+		i++;
+	}
+	return tab;
+}
+
+char  *handler(char *path, char **env)
+{
+	return(ft_newpath(ft_substitute(path, env)));
+}
+
+char *ft_newpath(char **tab)
+{
+	int i;
+	char *tmp;
 	
-
-
+	i = 0;
+	while(tab[i])
+	{
+		tmp = ft_strjoin(tmp, tab[i]);
+		i++;
+	}
+	return tmp;
 }
 
