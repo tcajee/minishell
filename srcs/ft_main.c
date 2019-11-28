@@ -91,7 +91,7 @@ int		main(int argc, char **argv, char **envv)
 	(void)(argc && argv);
 		input = NULL;
 	env = ft_tabdup(envv);
-	printf("%s", handler("/goinfre/$USER/Desktop", envv));
+	printf("%s", handler("/goinfre/$USER/Desktop", env));
 	while (1)
 	{
 		ft_putstr("$> ");
