@@ -43,7 +43,8 @@ void		ft_print_hex(t_list *data)
 	else if (data->length_mod == 4)
 		ft_hex(data, va_arg(data->arg, unsigned long long));
 	else if (data->length_mod == 5)
-		ft_hex(data, va_arg(data->arg, intmax_t));
+		ft_hex(data, va_arg(data->arg, int));
+		/* ft_hex(data, va_arg(data->arg, intmax_t)); */
 	else if (data->length_mod == 6)
 		ft_hex(data, va_arg(data->arg, size_t));
 	else

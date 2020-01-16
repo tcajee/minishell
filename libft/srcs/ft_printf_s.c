@@ -67,5 +67,6 @@ void		ft_print_s(t_list *data)
 	if (data->fmt == 's' && data->length_mod != 3)
 		ft_s(data, va_arg(data->arg, char *));
 	else
-		ft_ls(data, va_arg(data->arg, wint_t *));
+		ft_ls(data, va_arg(data->arg, int*));
+		/* ft_ls(data, va_arg(data->arg, wint_t *)); */
 }

@@ -35,7 +35,8 @@ void		ft_print_u(t_list *data)
 	else if (data->length_mod == 4)
 		ft_uns(data, va_arg(data->arg, unsigned long long));
 	else if (data->length_mod == 5)
-		ft_uns(data, va_arg(data->arg, uintmax_t));
+		ft_uns(data, va_arg(data->arg, size_t));
+		/* ft_uns(data, va_arg(data->arg, uintmax_t)); */
 	else if (data->length_mod == 6)
 		ft_uns(data, va_arg(data->arg, size_t));
 	else

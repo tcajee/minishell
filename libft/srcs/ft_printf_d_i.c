@@ -38,7 +38,8 @@ void		ft_print_dec(t_list *data)
 	else if (data->length_mod == 4)
 		ft_print_uns_d(data, va_arg(data->arg, long long));
 	else if (data->length_mod == 5)
-		ft_print_uns_d(data, va_arg(data->arg, intmax_t));
+		ft_print_uns_d(data, va_arg(data->arg, int));
+		/* ft_print_uns_d(data, va_arg(data->arg, intmax_t)); */
 	else if (data->length_mod == 6)
 		ft_print_uns_d(data, va_arg(data->arg, size_t));
 	else

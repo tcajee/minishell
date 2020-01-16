@@ -36,7 +36,8 @@ static void bin_handler(char **argv, char ***env)
 	pid_t	wpid;
 	int		status;
 	char	*path;
-
+	
+	status = 0;
 	pid = fork();
 	if (pid == 0)
 	{
