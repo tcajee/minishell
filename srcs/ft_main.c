@@ -19,7 +19,7 @@ int	is_bin(char **argv)
 		"bash", "date", "expr", "link", "pax", "sh", "test", "cat",
 		"dd", "hostname", "ln", "ps", "sleep", "unlink", "chmod",
 		"df", "kill", "ls", "pwd", "stty", "wait4path", "cp",
-		"echo", "ksh", "mkdir", "rm", "sync", "zsh", "\0"};
+		"echo", "ksh", "mkdir", "rm", "sync", "zsh", "clear", "\0"};
 
 	i = 0;
 	while (bins[i][0])

@@ -14,20 +14,28 @@
 
 static void print_echo(char **arg, char **env, int i, int k)
 {
-	while (arg[k][i])
+	int len;
+	
+	if (!arg[k][i])
+		return ;
+	if (IS_VAR(arg[k][i]))
 	{
-		if (!arg[k][i])
-			break ;
-		if (IS_VAR(arg[k][i]))
-		{
-			check_env_var(arg[k], env);
-			break ;
-		}
-		if (IS_QOUTE(arg[k][i]))
-			i++;
-		ft_putchar(arg[k][i]);
-		i++;
+		check_env_var(arg[k], env);
+		return ;
 	}
+	if (IS_QOUTE(arg[k][i]))
+	{
+		len = (int)ft_strlen(arg[k]) - 2;
+		if (arg[k][i] != arg[k][len + 1])
+		{
+			ft_putstr("echo Error: Please close quotes.");
+			return ;
+		}
+		while (++i < len + 1)
+			ft_putchar(arg[k][i]);
+	}
+	else
+		ft_putstr(arg[k]);
 }
 
 
