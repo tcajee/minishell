@@ -72,5 +72,3 @@ void	mini_echo(char **argv)
 	}
 	ft_putstr("\b\n");
 }
-
-
