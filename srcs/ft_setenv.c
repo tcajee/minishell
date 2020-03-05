@@ -6,7 +6,7 @@
 /*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/19 12:29:55 by tcajee           ###   ########.fr       */
+/*   Updated: 2019/09/19 16:03:31 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_putenv(char **env)
 
 	i = 0;
 	while (env[i])
-		ft_printf("%s\n", env[i++]);
+		printf("%s\n", env[i++]);
 }
 
 int		ft_findreplace(char **tab, char *elem, char *data)
@@ -31,7 +31,7 @@ int		ft_findreplace(char **tab, char *elem, char *data)
 	i = 0;
 	if (!elem)
 	{
-		ft_printf("No variable entered\n");
+		printf("No variable entered\n");
 		return (-1);
 	}
 	len = ft_strlen(elem);
@@ -69,12 +69,42 @@ void	ft_pushback(char **tab, int *len)
 	}
 }
 
+ void    ft_newenv(char **tab, char *elem, char *data)
+ {
+     int len;
+     char *tmp;
+     char *ret;
+
+     tmp = ft_strcat(elem, "=");
+     len = ft_tablen(tab);
+	 if (!data){
+		 printf("No variable data entered\n");
+		 return ;
+	 }
+     if (tab[len] == NULL)
+     {
+         ret = ft_strcat(tmp, data);
+         tab[len] = ft_strdup(ret);
+         tab[len + 1] = NULL;
+     }
+ }
+
+
 void	ft_setenv(char **tab, char *elem, char *data)
 {
-	int len;
+	char **elems;
 
-	len = ft_tablen(tab);
-	ft_findreplace(tab, elem, data);
-	/* ft_pushback(tab, &len); */
-	ft_pushback(tab, &len);
+	elems = NULL;
+	if (data == NULL)
+	{
+		elems = ft_strsplit(elem, '=');
+		if (elems != NULL)
+		{
+			if (ft_findreplace(tab, elems[0], elems[1]) == 0)
+				ft_newenv(tab,elems[0], elems[1]);
+		}
+	}
+	else
+		if (ft_findreplace(tab, elem, data) == 0)
+			ft_newenv(tab, elem, data);
 }
