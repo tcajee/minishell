@@ -20,10 +20,9 @@ int		ft_findremove(char **tab, char *elem)
 	i = 0;
 	if (!elem)
 	{
-		ft_printf("No variable entered\n");
+		ft_putendl("No variable entered");
 		return (-1);
 	}
-	
 	len = ft_strlen(elem);
 	while (tab[i])
 	{
@@ -40,11 +39,9 @@ int		ft_findremove(char **tab, char *elem)
 void	ft_unsetenv(char **env, char *arg)
 {
 	int len;
-	char *elem;
 
-	elem = ft_strcat(arg, "=");
 	len = ft_tablen(env);
-	ft_findremove(env, arg);
+	if (ft_findremove(env, arg) == 0)
+		ft_putendl("Variable not found");
 	ft_pushback(env, &len);
-	free(elem);
 }

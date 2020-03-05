@@ -49,7 +49,8 @@ void	check_env_var(char *arg, char **env)
 	{
 		env_var = ft_strsplit(env[i++], '=');
 		if (ft_strcmp(env_var[0], arg + 1) == 0)
-			ft_printf("%s", env_var[1]);
+			ft_putstr(env_var[1]);
+
 	}
 }
 
@@ -79,4 +80,5 @@ void	mini_echo(char **argv)
 		i++;
 	}
 	ft_putstr("\b\n");
+}
 }
