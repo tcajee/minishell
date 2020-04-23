@@ -14,20 +14,28 @@
 
 static void print_echo(char **arg, char **env, int i, int k)
 {
-	while (arg[k][i])
+	int len;
+	
+	if (!arg[k][i])
+		return ;
+	if (IS_VAR(arg[k][i]))
 	{
-		if (!arg[k][i])
-			break ;
-		if (IS_VAR(arg[k][i]))
-		{
-			check_env_var(arg[k], env);
-			break ;
-		}
-		if (IS_QOUTE(arg[k][i]))
-			i++;
-		ft_putchar(arg[k][i]);
-		i++;
+		check_env_var(arg[k], env);
+		return ;
 	}
+	if (IS_QOUTE(arg[k][i]))
+	{
+		len = (int)ft_strlen(arg[k]) - 2;
+		if (arg[k][i] != arg[k][len + 1])
+		{
+			ft_putstr("echo Error: Please close quotes.");
+			return ;
+		}
+		while (++i < len + 1)
+			ft_putchar(arg[k][i]);
+	}
+	else
+		ft_putstr(arg[k]);
 }
 
 
@@ -57,4 +65,20 @@ void 	do_echo(char **arg, char **env)
 		ft_putchar(' ');
 	}
 	ft_putstr("\b\n");
+	/* ft_putchar('\n'); */
+}
+
+void	mini_echo(char **argv)
+{
+	size_t i;
+
+	i = 1;
+	while (argv[i])
+	{
+		ft_putstr((argv[i]));
+		ft_putchar(' ');
+		i++;
+	}
+	ft_putstr("\b\n");
+}
 }
