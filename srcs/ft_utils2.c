@@ -16,14 +16,14 @@ char    *replace_path(char *path, char **env)
             ft_strdel(&tab[i]);
             tab[i] = ft_strdup(tmp);
         }
-        i++;   
+        i++;
     }
     return(ft_newpath(tab));
 
 }
 
 char    *getvalue(char *var, char **env)
-{   
+{
     char *tmp;
     char *chr;
     int i;
@@ -34,7 +34,7 @@ char    *getvalue(char *var, char **env)
     while(env[i])
     {
         if (ft_strncmp(env[i], tmp, ft_strlen(tmp)) == 0)
-        {   
+        {
             chr = ft_strchr(env[i], '=');
             j = (int)(chr - env[i]);
             tmp = ft_strstr(env[i], &env[i][j + 1]);
@@ -48,11 +48,11 @@ char *ft_newpath(char **tab)
 {
 	int i;
 	char *tmp;
-	
+
 	i = 0;
 	tmp = "/";
-	while(*tab[i] != '\0')
-	{	
+	while(tab[i] != NULL)
+	{
 		tmp = ft_strjoin(tmp, tab[i]);
 		tmp = ft_strjoin(tmp, "/");
 		i++;

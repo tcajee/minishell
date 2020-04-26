@@ -74,6 +74,5 @@ int		main(int argc, char **argv, char **envv)
 	return(0);
 }
 
-// fix prompt
-// fix echo
-// fix cd more than two args
+// MEMORY LEAKS
+// ECHO
