@@ -33,7 +33,6 @@ int	is_bin(char **argv)
 static void bin_handler(char **argv, char ***env)
 {
 	pid_t	pid;
-	// pid_t	wpid;
 	int		status;
 	char	*path;
 
@@ -52,7 +51,6 @@ static void bin_handler(char **argv, char ***env)
 		}
 		else if (execve(argv[0], argv, *env) == -1)
 			printf("cd: no such file or directory: %s\n", argv[0]);
-		// return ;
 	}
 	return ;
 }
@@ -89,23 +87,15 @@ int		main(int argc, char **argv, char **envv)
 	char **args;
 
 	(void)(argc && argv);
-		input = NULL;
 	env = ft_tabdup(envv);
-	while (1)
+	while ((input = readline("")))
 	{
-		ft_putstr("$> ");
-		input = readline("");
-		if (input && *input)
-		{
-			args = ft_strsplit(input, ' ');
-			call_handler(args, &env);
-			ft_tabfree(args);
-		}
+		args = ft_strsplit(input, ' ');
+		call_handler(args, &env);
+		ft_tabfree(args);
 	}
 	if (env)
 		free(&env);
-	// return (0);
-	// printf("%s", ft_find_variable("/goinfre/$USER/Desktop"));
 	return(0);
 }
 

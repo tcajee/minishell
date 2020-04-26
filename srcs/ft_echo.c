@@ -15,7 +15,7 @@
 static void print_echo(char **arg, char **env, int i, int k)
 {
 	int len;
-	
+
 	if (!arg[k][i])
 		return ;
 	if (IS_VAR(arg[k][i]))
@@ -37,7 +37,6 @@ static void print_echo(char **arg, char **env, int i, int k)
 	else
 		ft_putstr(arg[k]);
 }
-
 
 void	check_env_var(char *arg, char **env)
 {
@@ -65,20 +64,4 @@ void 	do_echo(char **arg, char **env)
 		ft_putchar(' ');
 	}
 	ft_putstr("\b\n");
-	/* ft_putchar('\n'); */
-}
-
-void	mini_echo(char **argv)
-{
-	size_t i;
-
-	i = 1;
-	while (argv[i])
-	{
-		ft_putstr((argv[i]));
-		ft_putchar(' ');
-		i++;
-	}
-	ft_putstr("\b\n");
-}
 }

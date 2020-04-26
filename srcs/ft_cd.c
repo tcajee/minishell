@@ -12,7 +12,7 @@
 
 #include "../libft/includes/libft.h"
 
-static char *ft_home(char **env)
+char *ft_home(char **env)
 {
 	char 	**home;
 	int		i;
@@ -32,7 +32,7 @@ static char *ft_home(char **env)
 	return (NULL);
 }
 
-static char *ft_oldpwd(char **env)
+char *ft_oldpwd(char **env)
 {
 	char 	**home;
 	int		i;
@@ -74,32 +74,29 @@ int			ft_is_dir(char *dir)
 
 void	do_cd(char **arg, char **env)
 {
+	char	*new;
+	char	*old;
 	char	path[PATH_MAX];
-	char *temp;
-	char *old;
-
+	
 	old = NULL;
-	old = getcwd(old, sizeof(old));
-	temp = NULL;
+	new = NULL;
+	old = getcwd(old, 1024);
 	if (!arg[1] || (ft_strcmp(arg[1], "--") == 0) || (ft_strcmp(arg[1], "$HOME") == 0) || (ft_strcmp(arg[1], "~") == 0))
-		chdir(temp = ft_home(env));
+		chdir(new = ft_home(env));
 	else if ((ft_strcmp(arg[1], "-") == 0) || (ft_strcmp(arg[1], "$OLDPWD") == 0))
-		chdir(temp = ft_oldpwd(env));
+		chdir(new = ft_oldpwd(env));
 	else if (ft_is_dir(arg[1]) == 2)
 	{
 		readlink(arg[1], ft_memset(path, 0, PATH_MAX), PATH_MAX);
-		temp = ft_strjoin(ft_strsub(arg[1], 0, (ft_strrchr(arg[1], '/') - arg[1] + 1 )), path);
-		chdir(temp);
+		new = ft_strjoin(ft_strsub(arg[1], 0, (ft_strrchr(arg[1], '/') - arg[1] + 1 )), path);
+		chdir(new);
 	}
 	else if (ft_is_dir(arg[1]) == 1)
-		chdir(arg[1]);
-
-	ft_setenv(env, "OLDPWD", old);
-	free(old);
-	
-	old = NULL;
-	old = getcwd(old, sizeof(old));
-	ft_setenv(env, "PWD", old);
-	free(old);
-	free(temp);
+		chdir(new = arg[1]);
+	if (new)
+		ft_setenv(env, "OLDPWD", old);
+		free(old);
+		old = getcwd(old, 1024);
+		ft_setenv(env, "PWD", old);
+		free(old);
 }

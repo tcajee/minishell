@@ -1,4 +1,5 @@
 #include "../libft/includes/libft.h"
+
 char    *replace_path(char *path, char **env)
 {
     char **tab;
@@ -20,6 +21,7 @@ char    *replace_path(char *path, char **env)
     return(ft_newpath(tab));
 
 }
+
 char    *getvalue(char *var, char **env)
 {   
     char *tmp;
@@ -41,7 +43,6 @@ char    *getvalue(char *var, char **env)
     }
     return(tmp);
 }
-
 
 char *ft_newpath(char **tab)
 {

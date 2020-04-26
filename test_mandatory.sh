@@ -3,9 +3,9 @@
 exec 3>./test_pipe
 
 echo "Launching minishell..."
-echo "./minishell" >&3
 
 read -p "Press enter to continue"
+echo "./minishell" >&3
 
 echo "$> foo"
 echo "foo" >&3
