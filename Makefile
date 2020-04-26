@@ -26,7 +26,7 @@ LIBFT		= ./libft/libft.a
 LIBINC		= ./libft/incs
 
 # Optimization and Compiler flags and commands
-CC			= clang
+CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra
 
 # Main rule
@@ -39,11 +39,11 @@ $(BUILDDIR):
 
 # Objects rule
 $(BUILDDIR)%.o:$(SRCDIR)%.c
-	@$(CC) $(CFLAGS) -I$(LIBINC) -o $@ -c $< 
+	@$(CC) $(CFLAGS) -I$(LIBINC) -o $@ -c $<
 
 # Project file rule
 $(NAME): $(BUILDOBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(BUILDOBJS) $(LIBFT) -lreadline
+	@$(CC) $(CFLAGS) $(BUILDOBJS) -L$(LIBDIR) -lft -lreadline -o $(NAME)
 	@echo "Compiled: $(NAME)"
 
 # Libft rule

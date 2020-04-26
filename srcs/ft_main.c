@@ -12,6 +12,25 @@
 
 #include "../libft/includes/libft.h"
 
+void ft_tabclean(char **tab)
+{
+	char **outer;
+	char *inner;
+
+	outer = tab;
+	inner = *tab;
+	while (outer++)
+	{
+		while(inner++)
+		{
+			if (inner)
+			 free(inner);
+		}
+	}
+	tab = NULL;
+
+}
+
 void call_handler(char **argv, char ***env)
 {
 	if (!argv[0])
@@ -28,7 +47,7 @@ void call_handler(char **argv, char ***env)
 		ft_unsetenv(*env, argv[1]);
 	else if (ft_strcmp(argv[0], "exit") == 0)
 	{
-		ft_tabfree(*env);
+		ft_tabclean(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
 	else if (get_path(argv, *env))
@@ -51,8 +70,7 @@ int		main(int argc, char **argv, char **envv)
 		call_handler(args, &env);
 		ft_tabfree(args);
 	}
-	if (env)
-		free(&env);
+	ft_tabfree(env);
 	return(0);
 }
 

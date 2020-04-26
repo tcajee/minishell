@@ -51,7 +51,7 @@ char *ft_newpath(char **tab)
 	
 	i = 0;
 	tmp = "/";
-	while(tab[i] != '\0')
+	while(*tab[i] != '\0')
 	{	
 		tmp = ft_strjoin(tmp, tab[i]);
 		tmp = ft_strjoin(tmp, "/");

@@ -75,6 +75,7 @@ int			ft_is_dir(char *dir)
 void	do_cd(char **arg, char **env)
 {
 	char	*new;
+	char	*temp;
 	char	*old;
 	char	path[PATH_MAX];
 	
@@ -90,21 +91,25 @@ void	do_cd(char **arg, char **env)
 	else if (ft_is_dir(arg[1]) == 2)
 	{
 		readlink(arg[1], ft_memset(path, 0, PATH_MAX), PATH_MAX);
-		new = ft_strjoin(ft_strsub(arg[1], 0, (ft_strrchr(arg[1], '/') - arg[1] + 1 )), path);
+		temp = ft_strsub(arg[1], 0, (ft_strrchr(arg[1], '/') - arg[1] + 1 ));
+		new = ft_strjoin(temp, path);
+		free(temp);
 		chdir(new);
 	}
 	else if (ft_is_dir(arg[1]) == 1)
-		chdir(new = arg[1]);
-	if (new)
-		clean_cd(new, old, env);
+		chdir(arg[1]);
+	clean_cd(new, old, env);
 }
 
 void	clean_cd(char *new, char *old, char **env)
 {
 	if (new)
-		ft_setenv(env, "OLDPWD", old);
-		free(old);
-		old = getcwd(old, 1024);
-		ft_setenv(env, "PWD", old);
-		free(old);
+		free(new);
+	ft_setenv(env, "OLDPWD", old);
+	free(old);
+	old = NULL;
+	old = getcwd(old, 1024);
+	ft_setenv(env, "PWD", old);
+	free(old);
+	old = NULL;
 }
