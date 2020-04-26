@@ -12,7 +12,6 @@
 
 #include "../libft/includes/libft.h"
 
-
 void call_handler(char **argv, char ***env)
 {
 	if (!argv[0])
@@ -35,9 +34,8 @@ void call_handler(char **argv, char ***env)
 	else if (get_path(argv, *env))
 		return;
 	else
-		printf("minishell: %s: command not found\n", argv[0]);
+		ft_printf("minishell: %s: command not found\n", argv[0]);
 }
-
 
 int		main(int argc, char **argv, char **envv)
 {

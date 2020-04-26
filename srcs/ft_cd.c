@@ -57,14 +57,14 @@ int			ft_is_dir(char *dir)
 	struct stat		s_is;
 
 	if (lstat(dir, &s_is) < 0)
-		printf("cd: no such file or directory: %s\n", dir);
+		ft_printf("cd: no such file or directory: %s\n", dir);
 	else if ((s_is.st_mode & S_IFMT) == S_IFLNK)
 		return (2);
 	else if ((s_is.st_mode & S_IFMT) == S_IFDIR)
 	{
 		if ((!(s_is.st_mode & S_IRGRP) && !(s_is.st_mode & S_IRUSR) && !(s_is.st_mode & S_IROTH)))
 		{
-			printf("minishell: cd: %s: Permission denied\n", dir);
+			ft_printf("minishell: cd: %s: Permission denied\n", dir);
 			return (0);
 		}
 		return (1);
@@ -81,6 +81,8 @@ void	do_cd(char **arg, char **env)
 	old = NULL;
 	new = NULL;
 	old = getcwd(old, 1024);
+	if (arg[2])
+		ft_printf("minishell: cd: too many arguments\n");
 	if (!arg[1] || (ft_strcmp(arg[1], "--") == 0) || (ft_strcmp(arg[1], "$HOME") == 0) || (ft_strcmp(arg[1], "~") == 0))
 		chdir(new = ft_home(env));
 	else if ((ft_strcmp(arg[1], "-") == 0) || (ft_strcmp(arg[1], "$OLDPWD") == 0))
@@ -93,6 +95,12 @@ void	do_cd(char **arg, char **env)
 	}
 	else if (ft_is_dir(arg[1]) == 1)
 		chdir(new = arg[1]);
+	if (new)
+		clean_cd(new, old, env);
+}
+
+void	clean_cd(char *new, char *old, char **env)
+{
 	if (new)
 		ft_setenv(env, "OLDPWD", old);
 		free(old);

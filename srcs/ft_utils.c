@@ -59,7 +59,6 @@ char    **ft_tabdup(char **tab)
 	return (NULL);
 }
 
-
 int     ft_tablen(char **tab)
 {
 	int len;
