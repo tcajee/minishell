@@ -37,6 +37,10 @@ int		ft_strlen_double(char **str);
 char	**ft_strcpy_double(char **arr);
 void	ft_input(void);
 
+int     exec_path(char *path, char **args, char **env);
+int     check_path(char *bin, char **path);
+int     find_path(char **argv, char **env, char **path);
+int     get_path(char **argv, char **env);
 
 // skorac
 int		ft_tablen(char **tab);

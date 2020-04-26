@@ -23,8 +23,8 @@ void	ft_putenv(char **env)
 
 int		ft_findreplace(char **tab, char *elem, char *data)
 {
-	int		i;
-	size_t	len;
+	int i;
+	size_t len;
 	char	*tmp;
 	char	*ret;
 
@@ -69,25 +69,25 @@ void	ft_pushback(char **tab, int *len)
 	}
 }
 
-void    ft_newenv(char **tab, char *elem, char *data)
-{
+ void    ft_newenv(char **tab, char *elem, char *data)
+ {
      int len;
      char *tmp;
      char *ret;
 
      tmp = ft_strcat(elem, "=");
      len = ft_tablen(tab);
-	 if (!data) {
-		printf("No variable data entered\n");
-		return ;
-	}
-    if (tab[len] == NULL)
-    {
-        ret = ft_strcat(tmp, data);
-        tab[len] = ft_strdup(ret);
-        tab[len + 1] = NULL;
-    }
-}
+	 if (!data){
+		 printf("No variable data entered\n");
+		 return ;
+	 }
+     if (tab[len] == NULL)
+     {
+         ret = ft_strcat(tmp, data);
+         tab[len] = ft_strdup(ret);
+         tab[len + 1] = NULL;
+     }
+ }
 
 void	ft_setenv(char **tab, char *elem, char *data)
 {
