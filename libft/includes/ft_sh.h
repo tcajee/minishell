@@ -19,7 +19,8 @@
 # include <sys/stat.h>
 
 # define IS_VAR(a) (a == '$')
-# define IS_QOUTE(a) (a == '\'' || a == '\"')
+# define IS_SINGLE(a) (a == '\'')
+# define IS_DOUBLE(a) (a == '\"')
 
 # define RED    "\033[0;31m"
 # define BLUE   "\033[0;34m"
@@ -37,9 +38,10 @@ char	**ft_strcpy_double(char **arr);
 void	ft_input(void);
 void	clean_cd(char *new, char *old, char **env);
 int     exec_path(char *path, char **args, char **env);
-int     check_path(char *bin, char **path);
+int     check_bin(char *bin);
 int     find_path(char **argv, char **env, char **path);
 int     get_path(char **argv, char **env);
+void    ft_tabclean(char **tab);
 
 // skorac
 int		ft_tablen(char **tab);

@@ -3,9 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   ft_path.c                                           :+:      :+:    :+:  */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <mbaloyi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
+/*   Created: 2019/09/10 16:12:18 by tcajee            #+#    #+#             */
 /*   Updated: 2019/09/19 18:07:55 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -31,7 +31,7 @@ int	exec_path(char *path, char **args, char **env)
 	return (1);
 }
 
-int check_path(char *bin, char **path)
+int check_bin(char *bin)
 {
 	struct stat	s_stat;
 
@@ -39,7 +39,6 @@ int check_path(char *bin, char **path)
 		return (0);
 	else
 	{
-		ft_tabfree(path);
 		if (s_stat.st_mode & S_IFREG)
 		{
 			if (s_stat.st_mode & S_IXUSR)
@@ -72,7 +71,7 @@ int find_path(char **argv, char **env, char **path)
 			temp = ft_strjoin(path[i], "/");
 			bin = ft_strjoin(temp, argv[0]);
 		}
-		if (!(status = check_path(bin, path)))
+		if (!(status = check_bin(bin)))
 			free(bin);
 		else if (status != -1)
 			return(exec_path(bin, argv, env));

@@ -12,29 +12,28 @@
 
 #include "../libft/includes/libft.h"
 
-void ft_tabclean(char **tab)
-{
-	char **outer;
-	char *inner;
+// void ft_tabclean(char **tab)
+// {
+// 	char **outer;
+// 	char *inner;
 
-	outer = tab;
-	inner = *tab;
-	while (outer++)
-	{
-		while(inner++)
-		{
-			if (inner)
-			 free(inner);
-		}
-	}
-	tab = NULL;
-
-}
+	// outer = tab;
+	// inner = *tab;
+	// while (outer++)
+	// {
+	// 	while(inner++)
+	// 	{
+	// 		if (inner)
+	// 			free(inner);
+	// 	}
+	// }
+	// tab = NULL;
+// }
 
 void call_handler(char **argv, char ***env)
 {
 	if (!argv[0])
-		return ;
+		return;
 	if ((ft_strcmp(argv[0], "echo") == 0)) 
 		do_echo(argv, *env);
 	else if (ft_strcmp(argv[0], "cd") == 0)
@@ -47,12 +46,12 @@ void call_handler(char **argv, char ***env)
 		ft_unsetenv(*env, argv[1]);
 	else if (ft_strcmp(argv[0], "exit") == 0)
 	{
-		ft_tabclean(*env);
+		ft_tabfree(*env);
 		exit(argv[1] ? ft_atoi(argv[1]) : 0);
 	}
 	else if (get_path(argv, *env))
 		return;
-	else
+	else if (argv[0])
 		ft_printf("minishell: %s: command not found\n", argv[0]);
 }
 
@@ -64,8 +63,8 @@ int		main(int argc, char **argv, char **envv)
 
 	(void)(argc && argv);
 	env = ft_tabdup(envv);
-	while ((input = readline("")))
-	{
+	while ((input = readline("\n$> ")))
+	{	
 		args = ft_strsplit(input, ' ');
 		call_handler(args, &env);
 		ft_tabfree(args);
