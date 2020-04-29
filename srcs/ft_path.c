@@ -16,9 +16,6 @@ int exec_path(char *path, char **args, char **env)
 {
     pid_t   pid;
 
-    ft_putstr("[");
-    ft_putstr(path);
-    ft_putstr("]\n");
     pid = fork();
     if (!pid)
         execve(path, args, env);
