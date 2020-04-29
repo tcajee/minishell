@@ -3,113 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
 /*   Updated: 2019/09/19 12:28:41 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
+#include "../libft/incs/libft.h"
 
-char *ft_home(char **env)
+int     check_cd(char *dir)
 {
-	char 	**home;
-	int		i;
+    struct stat s;
 
-	i = 0;
-	while(env[i])
-	{
-		home = ft_strsplit(env[i++], '=');
-		if (ft_strcmp(home[0], "HOME") == 0)
-		{
-			free(home[0]);
-			return(home[1]);
-		}
-		else
-			ft_tabfree(home);
-	}
-	return (NULL);
+    if (lstat(dir, &s) < 0)
+    {
+        ft_putstr("\033[31mcd: no such file or directory: ");
+        (dir) ? ft_putstr(dir) : NULL;
+        ft_putstr("\033[0m\n");
+    }
+    else if ((s.st_mode & S_IFMT) == S_IFLNK)
+        return (2);
+    else if ((s.st_mode & S_IFMT) == S_IFDIR)
+    {
+        if ((!(s.st_mode & S_IRGRP)
+            && !(s.st_mode & S_IRUSR) && !(s.st_mode & S_IROTH)))
+        {
+            ft_putstr("\033[31mminishell: cd: ");
+            (dir) ? ft_putstr(dir) : NULL;
+            ft_putstr(": Permission denied\033[0m\n");
+            return (0);
+        }
+        return (1);
+    }
+    return (0);
 }
 
-char *ft_oldpwd(char **env)
+void     parse_cd(char *path, char **envv)
 {
-	char 	**home;
-	int		i;
+    char    *temp;
 
-	i = 0;
-	while(env[i])
-	{
-		home = ft_strsplit(env[i++], '=');
-		if (ft_strcmp(home[0], "OLDPWD") == 0)
-		{
-			free(home[0]);
-			return(home[1]);
-		}
-		else
-			ft_tabfree(home);
-	}
-	return (NULL);
+    temp = NULL;
+    temp = getcwd(temp, 1024);
+    exec_setenv("OLDPWD", temp, envv);
+    (temp) ? free(temp) : NULL;
+    chdir(path);
+    (path) ? free(path) : NULL;
+    temp = NULL;
+    temp = getcwd(temp, 1024);
+    exec_setenv("PWD", temp, envv);
+    (temp) ? free(temp) : NULL;
 }
 
-int			ft_is_dir(char *dir)
+void     exec_cd(char **argv, char **envv)
 {
-	struct stat		s_is;
+    char    *temp;
+    char    *path;
+    char    link[PATH_MAX];
 
-	if (lstat(dir, &s_is) < 0)
-		ft_printf("cd: no such file or directory: %s\n", dir);
-	else if ((s_is.st_mode & S_IFMT) == S_IFLNK)
-		return (2);
-	else if ((s_is.st_mode & S_IFMT) == S_IFDIR)
-	{
-		if ((!(s_is.st_mode & S_IRGRP) && !(s_is.st_mode & S_IRUSR) && !(s_is.st_mode & S_IROTH)))
-		{
-			ft_printf("minishell: cd: %s: Permission denied\n", dir);
-			return (0);
-		}
-		return (1);
-	}
-	return (0);
-}
-
-void	do_cd(char **arg, char **env)
-{
-	char	*new;
-	char	*temp;
-	char	*old;
-	char	path[PATH_MAX];
-	
-	old = NULL;
-	new = NULL;
-	old = getcwd(old, 1024);
-	if (arg[2])
-		ft_printf("minishell: cd: too many arguments\n");
-	if (!arg[1] || (ft_strcmp(arg[1], "--") == 0) || (ft_strcmp(arg[1], "$HOME") == 0) || (ft_strcmp(arg[1], "~") == 0))
-		chdir(new = ft_home(env));
-	else if ((ft_strcmp(arg[1], "-") == 0) || (ft_strcmp(arg[1], "$OLDPWD") == 0))
-		chdir(new = ft_oldpwd(env));
-	else if (ft_is_dir(arg[1]) == 2)
-	{
-		readlink(arg[1], ft_memset(path, 0, PATH_MAX), PATH_MAX);
-		temp = ft_strsub(arg[1], 0, (ft_strrchr(arg[1], '/') - arg[1] + 1 ));
-		new = ft_strjoin(temp, path);
-		free(temp);
-		chdir(new);
-	}
-	else if (ft_is_dir(arg[1]) == 1)
-		chdir(arg[1]);
-	clean_cd(new, old, env);
-}
-
-void	clean_cd(char *new, char *old, char **env)
-{
-	if (new)
-		free(new);
-	ft_setenv(env, "OLDPWD", old);
-	free(old);
-	old = NULL;
-	old = getcwd(old, 1024);
-	ft_setenv(env, "PWD", old);
-	free(old);
-	old = NULL;
+    path = ft_strnew(1);
+    if (argv[2])
+        ft_putstr("\033[31mminishell: cd: too many arguments\033[0m\n");
+    else if (!argv[1] || (ft_strcmp(argv[1], "--") == 0))
+        path = parse_vars(path, "HOME", envv);
+    else if (ft_strcmp(argv[1], "-") == 0)
+        path = parse_vars(path, "OLDPWD", envv);
+    else if (!check_cd(argv[1]))
+        return;
+    else if (check_cd(argv[1]) == 2)
+    {
+        readlink(argv[1], ft_memset(link, 0, PATH_MAX), PATH_MAX);
+        temp = ft_strsub(argv[1], 0, (ft_strrchr(argv[1], '/') - argv[1] + 1 ));
+        path = ft_strjoin(temp, link);
+        (temp) ? free(temp) : NULL;
+    }
+    else if (check_cd(argv[1]) == 1)
+        path = ft_strdup(argv[1]);
+    (path[0] && !argv[2]) ? parse_cd(path, envv) : NULL;
 }

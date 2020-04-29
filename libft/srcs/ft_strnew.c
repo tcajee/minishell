@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/05 10:54:08 by mbaloyi           #+#    #+#             */
-/*   Updated: 2018/06/09 12:49:52 by mbaloyi          ###   ########.fr       */
+/*   Created: 2019/05/29 14:08:11 by tcajee            #+#    #+#             */
+/*   Updated: 2019/08/20 09:43:10 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../incs/libft.h"
 
 char	*ft_strnew(size_t size)
 {
-	char	*str;
+	char *new;
 
-	if (!(str = ft_memalloc(size + 1)))
+	if (!(new = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	ft_bzero(str, size + 1);
-	return (str);
+	return (ft_memset(new, '\0', size + 1));
 }

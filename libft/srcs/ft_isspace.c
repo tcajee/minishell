@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/24 16:56:22 by mbaloyi           #+#    #+#             */
-/*   Updated: 2018/06/10 14:23:05 by mbaloyi          ###   ########.fr       */
+/*   Created: 2019/06/08 18:29:20 by tcajee            #+#    #+#             */
+/*   Updated: 2019/08/20 09:43:08 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../incs/libft.h"
 
 int	ft_isspace(int c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\a'
-	|| c == '\b' || c == '\f' || c == '\r' || c == '\v')
-	{
-		return (1);
-	}
-	else
-		return (0);
+	return (((c >= '\t' && c <= '\r') || c == ' '));
 }

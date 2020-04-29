@@ -3,33 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/01 18:36:04 by mbaloyi           #+#    #+#             */
-/*   Updated: 2018/06/10 15:57:25 by mbaloyi          ###   ########.fr       */
+/*   Created: 2019/05/28 12:04:43 by tcajee            #+#    #+#             */
+/*   Updated: 2019/08/20 09:43:10 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../incs/libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*str;
-	char	a;
-	int		i;
+	int	len;
 
-	a = c;
-	i = 0;
-	str = (char *)s;
-	while (str[i] != '\0')
-		i++;
-	while (str[i] != str[0] || str[i] == a)
-	{
-		if (str[i] == a)
-		{
-			return (i + str);
-		}
-		i--;
-	}
+	len = 0;
+	if (s)
+		len = ft_strlen(s);
+	while (len && s[len] != (unsigned char)c)
+		len--;
+	if (s[len] == (unsigned char)c)
+		return (char *)&s[len];
 	return (NULL);
 }

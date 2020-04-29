@@ -3,77 +3,95 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/14 07:43:09 by mbaloyi           #+#    #+#             */
-/*   Updated: 2018/06/28 12:47:51 by mbaloyi          ###   ########.fr       */
+/*   Created: 2019/06/17 10:15:46 by tcajee            #+#    #+#             */
+/*   Updated: 2019/08/20 10:18:18 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../incs/libft.h"
 
-int		read_from_buff(int const fd, char **store)
+static int	copy_next_line(char **file, int fd, char **line)
 {
-	int		byte_read;
-	char	buff[BUFF_SIZE + 1];
-	char	*temp;
+	char	*trace;
+	int		i;
 
-	if ((byte_read = read(fd, buff, BUFF_SIZE)) >= 0)
-	{
-		buff[byte_read] = '\0';
-		if (!(temp = ft_strjoin(*store, buff)))
-			return (-1);
-		free(*store);
-		*store = temp;
-		return (byte_read);
-	}
-	return (-1);
+	trace = file[fd];
+	i = ft_strchr(trace, '\n') - trace;
+	if (!(*line = ft_strsub(trace, 0, i)))
+		return (-1);
+	if (!(file[fd] = ft_strsub(trace, i + 1, ft_strlen(trace) - i)))
+		return (-1);
+	ft_strdel(&trace);
+	return (1);
 }
 
-int		from_store_to_line(char **line, char **store, int const ret)
+static int  read_from_stdin(int fd, char **line)
 {
-	char	*temp;
-	size_t	len;
+	int     i;
+	long	bytes;
+	char	buffer[BUFF_SIZE + 1];
 
-	temp = ft_strchr(*store, '\n');
-	if (ret == BUFF_SIZE)
-		if (temp == NULL)
+    i = 0;
+    if (line)
+        *line = ft_strnew(0);
+    while ((bytes = read(fd, &buffer[i], 1)) && buffer[i++] != '\n')
+    {
+        if (bytes < 0)
+            return (-1);
+    }
+    buffer[i] = '\0';
+    *line = ft_strjoin(*line, buffer);
+    return (1);
+}
+
+static int	find_next_line(char **file, int fd)
+{
+	char	buffer[BUFF_SIZE + 1];
+	char	*stage;
+	long	bytes;
+
+	if (file[fd])
+		file[fd] = ft_strnew(0);
+	while (!(ft_strchr(file[fd], '\n')))
+	{
+		if ((bytes = read(fd, buffer, BUFF_SIZE)) == 0)
 			return (0);
-	if (temp == NULL)
-	{
-		*line = ft_strsub(*store, 0, ft_strlen(*store));
-		ft_strclr(*store);
-	}
-	else
-	{
-		len = temp - *store;
-		*line = ft_strsub(*store, 0, len);
-		ft_memmove(*store, temp + 1, ft_strlen(temp));
+		if (bytes < 0)
+			return (-1);
+		buffer[bytes] = '\0';
+		if (!(stage = ft_strjoin(file[fd], buffer)))
+			return (-1);
+		ft_strdel(&file[fd]);
+		file[fd] = stage;
 	}
 	return (1);
 }
 
-int		get_next_line(int const fd, char **line)
+int			get_next_line(const int fd, char **line)
 {
-	static	char	*store = NULL;
-	int				ret_read_buff;
-	int				ret_read_line;
+	static char	*files[FT_OPEN_MAX + 1];
+  int status;
 
-	if (store == NULL)
-		if (!(store = ft_strnew(BUFF_SIZE + 1)))
-			return (-1);
-	if (fd < 0)
+	if (!line || read(fd, NULL, 0) == -1)
 		return (-1);
-	if ((ret_read_buff = read_from_buff(fd, &store)) >= 0)
+	if (fd == 0 && (status = read_from_stdin(fd, line)) > 0)
+		return (1);
+	if (find_next_line(&files[fd], fd) < 0)
+		return (-1);
+	if (ft_strchr(files[fd], '\n'))
 	{
-		if (ret_read_buff == 0)
-			if (ft_strlen(store) == 0)
-				return (0);
-		ret_read_line = from_store_to_line(line, &store, ret_read_buff);
-		if (ret_read_line == 0)
-			get_next_line(fd, line);
+		if (copy_next_line(&files[fd], fd, line) < 0)
+			return (-1);
+	}
+	else if (ft_strlen(files[fd]) > 0)
+	{
+		if (!(*line = ft_strdup(files[fd])))
+			return (-1);
+		ft_strdel(&files[fd]);
 	}
 	else
-		return (-1);
+		return (0);
 	return (1);
 }

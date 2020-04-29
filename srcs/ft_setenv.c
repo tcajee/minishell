@@ -10,100 +10,93 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
+#include "../libft/incs/libft.h"
 
-void	ft_putenv(char **env)
+void    exec_putenv(char **env)
 {
-	int i;
+    int i;
 
-	i = 0;
-	while (env[i])
-		ft_printf("%s\n", env[i++]);
+    i = 0;
+    while (env[i])
+    {
+        ft_putstr(env[i++]);
+        ft_putstr("\n");
+    }
 }
 
-int		ft_findreplace(char **tab, char *elem, char *data)
+int     replace_env(char **envv, char *elem, char *data)
 {
-	int i;
-	size_t len;
-	char	*tmp;
-	char	*ret;
+    int     i;
+    size_t  len;
+    char    *ret;
+    char    *temp;
 
-	i = 0;
-	if (!elem)
-	{
-		ft_printf("No variable entered\n");
-		return (-1);
-	}
-	len = ft_strlen(elem);
-	while (tab[i])
-	{
-		if (ft_strncmp(tab[i], elem, len) == 0)
-		{
-			ft_strdel(&tab[i]);
-			tmp = ft_strjoin(elem, "=");
-			ret = ft_strjoin(tmp, data);
-			tab[i] = ft_strdup(ret);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
+    i = 0;
+    if (!elem)
+    {
+        ft_putstr("\033[31mNo variable data entered\033[0m\n");
+        return (-1);
+    }
+    len = ft_strlen(elem);
+    while (envv[i])
+    {
+        if (!ft_strncmp(envv[i], elem, len))
+        {
+            ft_strdel(&envv[i]);
+            temp = ft_strjoin(elem, "=");
+            ret = ft_strjoin(temp, data);
+            (temp) ? free(temp) : NULL;
+            envv[i] = ft_strdup(ret);
+            (ret) ? free(ret) : NULL;
+            return (1);
+        }
+        i++;
+    }
+    return (0);
 }
 
-void	ft_pushback(char **tab, int *len)
+void    add_env(char **envv, char *elem, char *data)
 {
-	int i;
-	char *tmp;
+     int    len;
+     char   *temp;
+     char   *ret;
 
-	i = 0;
-	*len -= 1;
-	while (i < *len)
-	{
-		if (tab[i] == NULL && tab[i + 1])
-		{
-			tmp = tab[i];
-			tab[i] = tab[i + 1];
-			tab[i + 1] = tmp;
-		}
-		i++;
-	}
-}
-
- void    ft_newenv(char **tab, char *elem, char *data)
- {
-     int len;
-     char *tmp;
-     char *ret;
-
-     tmp = ft_strcat(elem, "=");
-     len = ft_tablen(tab);
-	 if (!data){
-		 ft_printf("No variable data entered\n");
-		 return ;
-	 }
-     if (tab[len] == NULL)
+     len = arr_len(envv);
+     temp = ft_strcat(elem, "=");
+     if (!data)
+          ft_putstr("\033[31mNo variable data entered\033[0m\n");
+     else if (!envv[len])
      {
-         ret = ft_strcat(tmp, data);
-         tab[len] = ft_strdup(ret);
-         tab[len + 1] = NULL;
+         ret = ft_strcat(temp, data);
+         (temp) ? free(temp) : NULL;
+         envv[len] = ft_strdup(ret);
+         (ret) ? free(ret) : NULL;
+         envv[len + 1] = NULL;
      }
- }
+}
 
-void	ft_setenv(char **tab, char *elem, char *data)
+void    exec_setenv(char *key, char *value, char **envv)
 {
-	char **elems;
+    char **temp;
 
-	elems = NULL;
-	if (data == NULL)
-	{
-		elems = ft_strsplit(elem, '=');
-		if (elems != NULL)
-		{
-			if (ft_findreplace(tab, elems[0], elems[1]) == 0)
-				ft_newenv(tab,elems[0], elems[1]);
-		}
-	}
-	else
-		if (ft_findreplace(tab, elem, data) == 0)
-			ft_newenv(tab, elem, data);
+    temp = NULL;
+    if (!value && key)
+    {
+        temp = ft_strsplit(key, '=');
+        if (temp)
+        {
+            if (replace_env(envv, temp[0], temp[1]) == 0)
+            {
+                add_env(envv, temp[0], temp[1]);
+                (temp[0]) ? free(temp[0]) : NULL;
+                (temp[1]) ? free(temp[1]) : NULL;
+            }
+        }
+    }
+    else if (value && key)
+    {
+        if (replace_env(envv, key, value) == 0)
+            add_env(envv, key, value);
+    }
+    (temp) ? free(temp) : NULL;
 }

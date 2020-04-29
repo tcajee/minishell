@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_unsetenv.c                                    :+:      :+:    :+:   */
+/*   ft_unsetenv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skorac <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,38 +10,61 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
+#include "../libft/incs/libft.h"
 
-int		ft_findremove(char **tab, char *elem)
+void    push_env(char **envv, int *len)
 {
-	int i;
-	size_t len;
+    int     i;
+    char    *temp;
 
-	i = 0;
-	if (!elem)
-	{
-		ft_putendl("No variable entered");
-		return (-1);
-	}
-	len = ft_strlen(elem);
-	while (tab[i])
-	{
-		if (ft_strncmp(tab[i], elem, len) == 0)
-		{
-			ft_strdel(&tab[i]);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
+    i = -1;
+    *len -= 1;
+    while (i < *len)
+    {
+        if (!envv[i] && envv[i + 1])
+        {
+            temp = envv[i];
+            envv[i] = envv[i + 1];
+            envv[i + 1] = temp;
+        }
+        i++;
+    }
 }
 
-void	ft_unsetenv(char **env, char *arg)
+int     remove_env(char **tab, char *elem)
 {
-	int len;
+    int i;
+    size_t len;
 
-	len = ft_tablen(env);
-	if (ft_findremove(env, arg) == 0)
-		ft_putendl("Variable not found");
-	ft_pushback(env, &len);
+    i = 0;
+    if (!elem)
+    {
+        ft_putstr("\033[31mminishell: unsetenv: no variable entered\033[0m\n");
+        return (-1);
+    }
+    len = ft_strlen(elem);
+    while (tab[i])
+    {
+        if (ft_strncmp(tab[i], elem, len) == 0)
+        {
+            ft_strdel(&tab[i]);
+            return (1);
+        }
+        i++;
+    }
+    return (0);
+}
+
+void    exec_unsetenv(char *arg, char **env)
+{
+    int len;
+
+    len = arr_len(env);
+    if (remove_env(env, arg) == 0)
+    {
+        ft_putstr("\033[31mminishell: unsetenv: ");
+        ft_putstr(arg);
+        ft_putstr(" : variable not found\033[0m\n");
+    }
+    push_env(env, &len);
 }

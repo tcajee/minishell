@@ -3,37 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/05 15:17:19 by mbaloyi           #+#    #+#             */
-/*   Updated: 2018/06/09 17:42:23 by mbaloyi          ###   ########.fr       */
+/*   Created: 2019/05/30 16:03:32 by tcajee            #+#    #+#             */
+/*   Updated: 2019/08/20 09:43:10 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../incs/libft.h"
 
 char	*ft_strtrim(char const *s)
 {
-	int		i;
-	int		len;
-	char	*fresh;
-	int		n;
+	const char	*start;
+	const char	*end;
+	char		*new;
+	size_t		len;
 
-	i = 0;
-	n = 0;
-	if (!s)
-		return (NULL);
-	while (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')
-		i++;
-	if (s[i] == '\0')
-		return (ft_strcpy(ft_strnew(1), ""));
-	len = ft_strlen(s) - 1;
-	while (s[len] == ' ' || s[len] == '\n' || s[len] == '\t')
-		len--;
-	if (!(fresh = ft_strnew(len - i + 1)))
-		return (NULL);
-	while (i <= len)
-		fresh[n++] = s[i++];
-	fresh[n] = '\0';
-	return (fresh);
+	new = NULL;
+	if (s)
+	{
+		len = 0;
+		end = (s + (ft_strlen(s)));
+		while (ft_isspace(*s) && *s)
+			s++;
+		start = s;
+		while (ft_isspace(*(end - 1)) && end != s)
+			end--;
+		while (s++ != end)
+			len++;
+		if (!(new = ft_strsub(start, 0, len)))
+			return (NULL);
+	}
+	return (new);
 }

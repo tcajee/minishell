@@ -3,65 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/02 10:14:40 by mbaloyi           #+#    #+#             */
-/*   Updated: 2018/06/12 11:12:40 by mbaloyi          ###   ########.fr       */
+/*   Created: 2019/06/06 15:38:25 by tcajee            #+#    #+#             */
+/*   Updated: 2019/08/20 10:12:53 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
-
-int		ft_abs(int nr)
-{
-	return (nr * ((nr < 0) * -1 + (nr > 0)));
-}
-
-int		ft_intlen(int len)
-{
-	int		i;
-
-	i = 0;
-	if (len == -2147483648)
-		return (11);
-	if (len < 0)
-	{
-		len = len * -1;
-		i++;
-	}
-	while (len >= 10)
-	{
-		len /= 10;
-		i++;
-	}
-	i++;
-	return (i);
-}
+#include "../incs/libft.h"
 
 char	*ft_itoa(int n)
 {
-	char	*fresh;
-	int		sign;
-	int		len;
+	char	out[12];
+	char	*new;
+	long	x;
+	size_t	i;
 
-	sign = 1;
-	len = ft_intlen(n);
-	fresh = ft_strnew(len);
-	if (fresh == NULL)
-		return (NULL);
-	fresh[0] = '0';
-	fresh[len] = '\0';
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	else if (n == 0)
+		return (ft_strdup("0"));
+	else if (n < 0)
+		x = n * -1;
+	else
+		(x = n);
+	i = 0;
+	while (x > 0)
+	{
+		out[i++] = (x % 10) + 48;
+		x /= 10;
+	}
 	if (n < 0)
-	{
-		sign = -1;
-		fresh[0] = '-';
-	}
-	len--;
-	while (n)
-	{
-		fresh[len] = (((n % 10) * sign) + '0');
-		len--;
-		n = n / 10;
-	}
-	return (fresh);
+		out[i++] = '-';
+	out[i] = '\0';
+	if (!(new = ft_strnew(ft_strlen(out))))
+		return (NULL);
+	return (new = ft_strcpy(new, ft_strrev(out)));
 }

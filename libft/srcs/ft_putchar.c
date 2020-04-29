@@ -3,28 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/21 16:56:50 by mbaloyi           #+#    #+#             */
-/*   Updated: 2018/06/11 09:41:40 by mbaloyi          ###   ########.fr       */
+/*   Created: 2019/05/23 11:10:47 by tcajee            #+#    #+#             */
+/*   Updated: 2019/08/20 09:43:09 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../incs/libft.h"
 
 void	ft_putchar(char c)
 {
-	write(1, &c, 1);
-}
-
-int		ft_putchar_ret_int(char c)
-{
-	write(1, &c, 1);
-	return (1);
-}
-
-void	ft_putchar_iter(int i, char c)
-{
-	while (i--)
-		ft_putchar(c);
+	ft_putchar_fd(c, 1);
 }
