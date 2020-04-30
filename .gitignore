@@ -1,6 +1,8 @@
 ignore
 *.sh
 mini_fifo
+minishell
+*.log
 
 # Prerequisites 
 *.d

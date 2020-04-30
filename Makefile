@@ -43,7 +43,7 @@ $(BUILDDIR)%.o:$(SRCDIR)%.c
 
 # Project file rule
 $(NAME): $(BUILDOBJS)
-	@$(CC) $(CFLAGS) $(BUILDOBJS) -L$(LIBDIR) -lft -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(BUILDOBJS) -L$(LIBDIR) -lft -o $(NAME)
 	@echo "Compiled: $(NAME)"
 
 # Libft rule
