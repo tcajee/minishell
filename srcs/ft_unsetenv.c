@@ -12,59 +12,39 @@
 
 #include "../libft/incs/libft.h"
 
-void    push_env(char **envv, int *len)
-{
-    int     i;
-    char    *temp;
-
-    i = -1;
-    *len -= 1;
-    while (i < *len)
-    {
-        if (!envv[i] && envv[i + 1])
-        {
-            temp = envv[i];
-            envv[i] = envv[i + 1];
-            envv[i + 1] = temp;
-        }
-        i++;
-    }
-}
-
-int     remove_env(char **tab, char *elem)
+int     remove_env(char **envv, char *elem)
 {
     int i;
-    size_t len;
+    int n;
+    /* int len; */
 
-    i = 0;
+    i = -1;
     if (!elem)
-    {
-        ft_putstr("\033[31mminishell: unsetenv: no variable entered\033[0m\n");
         return (-1);
-    }
-    len = ft_strlen(elem);
-    while (tab[i])
+    n = ft_strlen(elem);
+    /* len = arr_len(envv); */
+    while (envv[++i])
     {
-        if (ft_strncmp(tab[i], elem, len) == 0)
+        if (!ft_strncmp(envv[i], elem, n))
         {
-            ft_strdel(&tab[i]);
-            return (1);
+            ft_strdel(&envv[i--]);
+            while (envv[i++])
+                envv[i] = envv[i + 1];
+            envv[i] = NULL;
+            break;
         }
-        i++;
     }
     return (0);
 }
 
 void    exec_unsetenv(char *arg, char **env)
 {
-    int len;
-
-    len = arr_len(env);
-    if (remove_env(env, arg) == 0)
+    if (remove_env(env, arg) < 0)
+        ft_putstr("\033[31m⮫ minishell: unsetenv: not enough args\033[0m\n");
+    else if (!remove_env(env, arg))
     {
-        ft_putstr("\033[31mminishell: unsetenv: ");
+        ft_putstr("\033[31m⮫ minishell: unsetenv: ");
         ft_putstr(arg);
-        ft_putstr(" : variable not found\033[0m\n");
+        ft_putstr(": variable not found\033[0m\n");
     }
-    push_env(env, &len);
 }

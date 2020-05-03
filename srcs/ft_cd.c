@@ -18,7 +18,7 @@ int     check_cd(char *dir)
 
     if (lstat(dir, &s) < 0)
     {
-        ft_putstr("\033[31mcd: no such file or directory: ");
+        ft_putstr("\033[31m⮫ cd: no such file or directory: ");
         (dir) ? ft_putstr(dir) : NULL;
         ft_putstr("\033[0m\n");
     }
@@ -29,7 +29,7 @@ int     check_cd(char *dir)
         if ((!(s.st_mode & S_IRGRP)
             && !(s.st_mode & S_IRUSR) && !(s.st_mode & S_IROTH)))
         {
-            ft_putstr("\033[31mminishell: cd: ");
+            ft_putstr("\033[31m⮫ minishell: cd: ");
             (dir) ? ft_putstr(dir) : NULL;
             ft_putstr(": Permission denied\033[0m\n");
             return (0);
@@ -63,7 +63,7 @@ void     exec_cd(char **argv, char **envv)
 
     path = ft_strnew(1);
     if (argv[2])
-        ft_putstr("\033[31mminishell: cd: too many arguments\033[0m\n");
+        ft_putstr("\033[31m⮫ minishell: cd: too many arguments\033[0m\n");
     else if (!argv[1] || (ft_strcmp(argv[1], "--") == 0))
         path = parse_vars(path, "HOME", envv);
     else if (ft_strcmp(argv[1], "-") == 0)

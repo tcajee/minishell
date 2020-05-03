@@ -21,7 +21,7 @@ int exec_path(char *path, char **args, char **env)
         execve(path, args, env);
     else if (pid < 0)
     {
-        ft_putstr("\033[31mminishell: execve: failed to fork!\033[0m\n");
+        ft_putstr("\033[31m⮫ minishell: execve: failed to fork!\033[0m\n");
         (path) ? free(path) : NULL;
         return (-1);
     }
@@ -44,7 +44,7 @@ int check_path(char *path)
                 return (1);
             else
             {
-                ft_putstr("\033[31mminishell");
+                ft_putstr("\033[31m⮫ minishell");
                 ft_putstr(": Permission denied: ");
                 ft_putstr(path);
                 ft_putstr("\033[0m\n");
@@ -71,6 +71,7 @@ int find_path(char **argv, char **env, char **path)
         {
             temp = ft_strjoin(path[i], "/");
             bin = ft_strjoin(temp, argv[0]);
+            (temp) ? free(temp) : NULL;
         }
         if (!(status = check_path(bin)))
             free(bin);
@@ -81,17 +82,34 @@ int find_path(char **argv, char **env, char **path)
     return(0);
 }
 
-int get_path(char **argv, char **env)
+int	get_path(char **argv, char **env)
 {
     int     i;
     char    **path;
 
     i = -1;
     path = NULL;
+    if (str_isempty(argv[0]))
+        return(1);
     while (env[++i])
     {
         if (!(ft_strncmp(env[i], "PATH", 4)))
             path = ft_strsplit(ft_strchr(env[i], '=') + 1, ':');
     }
     return (find_path(argv, env, path));
+}
+
+int	str_isempty(char *check)
+{
+    int     i;
+
+    i = 0;
+    while (check && check[i])
+    {
+        if (!ft_isspace(check[i]))
+            break;
+        if (!check[++i])
+            return(1);
+    }
+    return(0);
 }

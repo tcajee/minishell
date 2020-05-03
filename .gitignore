@@ -3,6 +3,7 @@ ignore
 mini_fifo
 minishell
 *.log
+*.log*
 
 # Prerequisites 
 *.d

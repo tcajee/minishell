@@ -24,79 +24,62 @@ void    exec_putenv(char **env)
     }
 }
 
-int     replace_env(char **envv, char *elem, char *data)
+void     replace_env(char **envv, char *key, char *value, int index)
 {
-    int     i;
-    size_t  len;
-    char    *ret;
     char    *temp;
 
-    i = 0;
-    if (!elem)
-    {
-        ft_putstr("\033[31mNo variable data entered\033[0m\n");
-        return (-1);
-    }
-    len = ft_strlen(elem);
-    while (envv[i])
-    {
-        if (!ft_strncmp(envv[i], elem, len))
-        {
-            ft_strdel(&envv[i]);
-            temp = ft_strjoin(elem, "=");
-            ret = ft_strjoin(temp, data);
-            (temp) ? free(temp) : NULL;
-            envv[i] = ft_strdup(ret);
-            (ret) ? free(ret) : NULL;
-            return (1);
-        }
-        i++;
-    }
-    return (0);
+    temp = ft_strjoin(key, "=");
+    ft_strdel(&envv[index]);
+    envv[index] = ft_strjoin(temp, value);
+    (temp) ? free(temp) : NULL;
 }
 
-void    add_env(char **envv, char *elem, char *data)
+char    **add_env(char **envv, char *key, char *value, int len)
 {
-     int    len;
-     char   *temp;
-     char   *ret;
+    int    i;
+    char   *temp;
+    char   **new;
 
-     len = arr_len(envv);
-     temp = ft_strcat(elem, "=");
-     if (!data)
-          ft_putstr("\033[31mNo variable data entered\033[0m\n");
-     else if (!envv[len])
-     {
-         ret = ft_strcat(temp, data);
-         (temp) ? free(temp) : NULL;
-         envv[len] = ft_strdup(ret);
-         (ret) ? free(ret) : NULL;
-         envv[len + 1] = NULL;
-     }
+    i = -1;
+    new = (char **)malloc(sizeof(char *) * (arr_len(envv) + 2));
+    while (envv[++i] && i < len)
+    {
+        new[i] = ft_strdup(envv[i]);
+        free(envv[i]);
+    }
+    temp = ft_strjoin(key, "=");
+    new[i++] = ft_strjoin(temp, value);
+    new[i] = NULL;
+    (temp) ? free(temp) : NULL;
+    free(envv);
+    return(new);
 }
 
 void    exec_setenv(char *key, char *value, char **envv)
 {
+    int i;
+    int len;
     char **temp;
 
-    temp = NULL;
-    if (!value && key)
+    i = -1;
+    len = arr_len(envv);
+    if (!key)
+         ft_putstr("\033[31m⮫ minishell: setenv: not enough args\033[0m\n");
+    else if (key)
     {
-        temp = ft_strsplit(key, '=');
-        if (temp)
+        ft_putstr("here");
+        if (ft_strchr(key, '='))
         {
-            if (replace_env(envv, temp[0], temp[1]) == 0)
-            {
-                add_env(envv, temp[0], temp[1]);
-                (temp[0]) ? free(temp[0]) : NULL;
-                (temp[1]) ? free(temp[1]) : NULL;
-            }
+            temp = ft_strsplit(key, '=');
+            key = temp[0];
+            value = temp[1];
         }
+        while (envv[++i])
+        {
+            if (!ft_strncmp(envv[i], key, ft_strlen(key)))
+                return(replace_env(envv, key, value, i));
+        }
+        envv = add_env(envv, key, value, len);
+        (temp) ? arr_del(temp) : NULL;
     }
-    else if (value && key)
-    {
-        if (replace_env(envv, key, value) == 0)
-            add_env(envv, key, value);
-    }
-    (temp) ? free(temp) : NULL;
 }

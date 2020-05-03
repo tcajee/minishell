@@ -34,15 +34,16 @@ static int  read_from_stdin(int fd, char **line)
 	char	buffer[BUFF_SIZE + 1];
 
     i = 0;
-    if (line)
-        *line = ft_strnew(0);
-    while ((bytes = read(fd, &buffer[i], 1)) && buffer[i++] != '\n')
+    while ((bytes = read(fd, &buffer[i], 1)) && buffer[i] != '\n')
     {
         if (bytes < 0)
             return (-1);
+        i++;
     }
     buffer[i] = '\0';
-    *line = ft_strjoin(*line, buffer);
+    if (line)
+        *line = ft_strdup(buffer);
+    *line = strip_newline(*line);
     return (1);
 }
 
@@ -72,12 +73,13 @@ static int	find_next_line(char **file, int fd)
 int			get_next_line(const int fd, char **line)
 {
 	static char	*files[FT_OPEN_MAX + 1];
-  int status;
 
 	if (!line || read(fd, NULL, 0) == -1)
 		return (-1);
-	if (fd == 0 && (status = read_from_stdin(fd, line)) > 0)
+	if (fd == 0 && (read_from_stdin(fd, line)) > 0)
 		return (1);
+    else
+		return (0);
 	if (find_next_line(&files[fd], fd) < 0)
 		return (-1);
 	if (ft_strchr(files[fd], '\n'))

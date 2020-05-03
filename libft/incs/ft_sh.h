@@ -28,9 +28,9 @@ void    parse_cd(char *path, char **env);
 
 // Setenv
 void    exec_putenv(char **env);
-void    push_env(char **tab, int *len);
-void    add_env(char **tab, char *elem, char *data);
-int     replace_env(char **tab, char *elem, char *data);
+void    push_env(char **envv, int index, int len);
+char    **add_env(char **envv, char *key, char *value, int len);
+void    replace_env(char **envv, char *key, char *value, int index);
 void    exec_setenv(char *key, char *value, char **envv);
 
 // Unsetenv
@@ -38,8 +38,8 @@ int     remove_env(char **tab, char *elem);
 void    exec_unsetenv(char *arg, char **env);
 
 // Exec
-void    exec_line(char *line, char ***env);
-void    exec_exit(char **argv, char **env);
+int    exec_line(char *line, char **argv, char ***env);
+void    exec_exit(char *line, char **argv, char **env);
 
 // Echo
 char    *ft_quotes(char *str);
@@ -67,5 +67,8 @@ char    *char_add(char *temp, char add);
 int     arr_len(char **array);
 void    arr_del(char **array);
 char    **arr_dup(char **envv);
+
+// Str Utils
+int     str_isempty(char *str);
 
 #endif

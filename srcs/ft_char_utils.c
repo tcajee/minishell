@@ -43,6 +43,7 @@ char    *char_del(char *old)
     while (old && old[++i])
         new[i] = old[i];
     new[--i] = '\0';
+    free(old);
     return (new);
 }
 
@@ -57,5 +58,6 @@ char    *char_add(char *old, char add)
         new[i] = old[i];
     new[i++] = add;
     new[i] = '\0';
+    free(old);
     return (new);
 }
