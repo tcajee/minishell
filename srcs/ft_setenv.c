@@ -37,22 +37,30 @@ void     replace_env(char **envv, char *key, char *value, int index)
 char    **add_env(char ***envv, char *key, char *value, int len)
 {
   int     i;
-  char    **temp;
+  char    *str;
+  char    *str2;
   char    **new;
+  char    **temp;
 
   i = -1;
   temp = *envv;
+  str  = NULL;
+  str2  = NULL;
   new = (char **)malloc(sizeof(char *) * (len + 3));
   while (++i < len)
       new[i] = (char *)malloc(sizeof(char) * (ft_strlen(temp[i]) + 1));
   i = -1;
   while (temp[++i])
     new[i] = ft_strcpy(new[i], temp[i]);
-  new[i] = (char *)malloc(sizeof(char) * (ft_strlen(key) + ft_strlen(value) + 2));
-  new[i] = ft_strcpy(new[i], key);
-  new[i] = ft_strcat(new[i], "=");
-  new[i] = ft_strcat(new[i], value);
+  new[i] = (value)
+      ? (char *)malloc(sizeof(char) * (ft_strlen(key) + ft_strlen(value) + 2))
+      : (char *)malloc(sizeof(char) * (ft_strlen(key) + 2));
+  str = ft_strjoin(key, "=");
+  str2 = ft_strjoin(str, value);
+  new[i] = (value) ? ft_strcpy(new[i], str2) : ft_strcpy(new[i], str) ;
   new[i + 1] = NULL;
+  (str) ? ft_strdel(&str) : NULL;
+  (str2) ? ft_strdel(&str2) : NULL;
   (temp) ? arr_del(temp) : NULL;
   return(new);
 }
