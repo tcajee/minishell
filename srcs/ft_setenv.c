@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbaloyi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tcajee <tcajee@student.wethinkcode.co.za>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 16:12:18 by mbaloyi           #+#    #+#             */
-/*   Updated: 2019/09/19 16:03:31 by tcajee           ###   ########.fr       */
+/*   Created: 2020/04/27 15:57:56 by tcajee            #+#    #+#             */
+/*   Updated: 2020/05/04 01:44:52 by tcajee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ char    **add_env(char ***envv, char *key, char *value, int len)
 
   i = -1;
   temp = *envv;
-  str  = NULL;
-  str2  = NULL;
   new = (char **)malloc(sizeof(char *) * (len + 3));
   while (++i < len)
       new[i] = (char *)malloc(sizeof(char) * (ft_strlen(temp[i]) + 1));
