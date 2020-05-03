@@ -30,56 +30,71 @@ void     replace_env(char **envv, char *key, char *value, int index)
 
     temp = ft_strjoin(key, "=");
     ft_strdel(&envv[index]);
-    envv[index] = ft_strjoin(temp, value);
-    (temp) ? free(temp) : NULL;
+    envv[index] = (value) ? ft_strjoin(temp, value) : temp;
+    (value) ? free(temp) : NULL;
 }
 
-char    **add_env(char **envv, char *key, char *value, int len)
+char    **add_env(char ***envv, char *key, char *value, int len)
 {
-    int    i;
-    char   *temp;
-    char   **new;
+  int     i;
+  char    **temp;
+  char    **new;
+
+  i = -1;
+  temp = *envv;
+  new = (char **)malloc(sizeof(char *) * (len + 3));
+  while (++i < len)
+      new[i] = (char *)malloc(sizeof(char) * (ft_strlen(temp[i]) + 1));
+  i = -1;
+  while (temp[++i])
+    new[i] = ft_strcpy(new[i], temp[i]);
+  new[i] = (char *)malloc(sizeof(char) * (ft_strlen(key) + ft_strlen(value) + 2));
+  new[i] = ft_strcpy(new[i], key);
+  new[i] = ft_strcat(new[i], "=");
+  new[i] = ft_strcat(new[i], value);
+  new[i + 1] = NULL;
+  (temp) ? arr_del(temp) : NULL;
+  return(new);
+}
+
+int    check_env(char **envv, char *key, char *value)
+{
+    int   i;
 
     i = -1;
-    new = (char **)malloc(sizeof(char *) * (arr_len(envv) + 2));
-    while (envv[++i] && i < len)
+    while (envv[++i])
     {
-        new[i] = ft_strdup(envv[i]);
-        free(envv[i]);
+        if (!strncmp(envv[i], key, ft_strlen(key)))
+        {
+            replace_env(envv, key, value, i);
+            return(1);
+        }
     }
-    temp = ft_strjoin(key, "=");
-    new[i++] = ft_strjoin(temp, value);
-    new[i] = NULL;
-    (temp) ? free(temp) : NULL;
-    free(envv);
-    return(new);
+    return(0);
 }
 
-void    exec_setenv(char *key, char *value, char **envv)
+void    exec_setenv(char *key, char *value, char ***envv)
 {
-    int i;
-    int len;
-    char **temp;
+    int     len;
+    char    **temp;
 
-    i = -1;
-    len = arr_len(envv);
+    temp = NULL;
+    len = arr_len(*envv);
     if (!key)
          ft_putstr("\033[31m⮫ minishell: setenv: not enough args\033[0m\n");
     else if (key)
     {
-        ft_putstr("here");
-        if (ft_strchr(key, '='))
+        if (!value)
         {
             temp = ft_strsplit(key, '=');
-            key = temp[0];
-            value = temp[1];
+            if (temp)
+            {
+                key = temp[0];
+                value = temp[1];
+            }
         }
-        while (envv[++i])
-        {
-            if (!ft_strncmp(envv[i], key, ft_strlen(key)))
-                return(replace_env(envv, key, value, i));
-        }
-        envv = add_env(envv, key, value, len);
+        if (!check_env(*envv, key, value))
+            *envv = add_env(envv, key, value, len);
         (temp) ? arr_del(temp) : NULL;
     }
 }

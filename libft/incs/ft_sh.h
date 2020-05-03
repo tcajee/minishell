@@ -29,9 +29,10 @@ void    parse_cd(char *path, char **env);
 // Setenv
 void    exec_putenv(char **env);
 void    push_env(char **envv, int index, int len);
-char    **add_env(char **envv, char *key, char *value, int len);
+char **add_env(char ***envv, char *key, char *value, int len);
+int     check_env(char **envv, char *key, char *value);
 void    replace_env(char **envv, char *key, char *value, int index);
-void    exec_setenv(char *key, char *value, char **envv);
+void    exec_setenv(char *key, char *value, char ***envv);
 
 // Unsetenv
 int     remove_env(char **tab, char *elem);
@@ -48,9 +49,9 @@ void    check_env_var(char *arg, char **env);
 void    exec_echo(char **argv, char *line, char **env);
 
 // Path
-int     check_path(char *bin);
+int     check_path(char *bin, struct stat s_stat);
 int     get_path(char **argv, char **env);
-int     exec_path(char *path, char **args, char **env);
+int     exec_path(char **temp, char *path, char **args, char **env);
 int     find_path(char **argv, char **env, char **path);
 
 // Parsing

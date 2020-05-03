@@ -12,7 +12,7 @@
 
 #include "../libft/incs/libft.h"
 
-int exec_path(char *path, char **args, char **env)
+int exec_path(char **temp, char *path, char **args, char **env)
 {
     pid_t   pid;
 
@@ -27,42 +27,38 @@ int exec_path(char *path, char **args, char **env)
     }
     wait(&pid);
     (path) ? free(path) : NULL;
+    (temp) ? arr_del(temp) : NULL;
     return (1);
 }
 
-int check_path(char *path)
+int check_path(char *path, struct stat s_stat)
 {
-    struct stat s_stat;
-
-    if (lstat(path, &s_stat) == -1)
-        return (0);
-    else
+    if (s_stat.st_mode & S_IFREG)
     {
-        if (s_stat.st_mode & S_IFREG)
+        if (s_stat.st_mode & S_IXUSR)
+            return (1);
+        else
         {
-            if (s_stat.st_mode & S_IXUSR)
-                return (1);
-            else
-            {
-                ft_putstr("\033[31m⮫ minishell");
-                ft_putstr(": Permission denied: ");
-                ft_putstr(path);
-                ft_putstr("\033[0m\n");
-                return (-1);
-            }
+            ft_putstr("\033[31m⮫ minishell");
+            ft_putstr(": Permission denied: ");
+            ft_putstr(path);
+            ft_putstr("\033[0m\n");
+            return (-1);
         }
-        return (0);
     }
+    return (0);
 }
 
 int find_path(char **argv, char **env, char **path)
 {
     char    *bin;
     char    *temp;
-    int     status;
-    int     i;
+    int      status;
+    int       i;
+    struct stat s_stat;
 
     i = -1;
+    bin = NULL;
     while (path && path[++i])
     {
         if (!(ft_strncmp(argv[0], path[i], ft_strlen(path[i]))))
@@ -73,12 +69,12 @@ int find_path(char **argv, char **env, char **path)
             bin = ft_strjoin(temp, argv[0]);
             (temp) ? free(temp) : NULL;
         }
-        if (!(status = check_path(bin)))
-            free(bin);
+        if (lstat(bin, &s_stat) == -1 || !(status = check_path(bin, s_stat)))
+            (bin) ? free(bin) : NULL;
         else if (status != -1)
-            return(exec_path(bin, argv, env));
+            return(exec_path(path, bin, argv, env));
     }
-    arr_del(path);
+    (path) ? arr_del(path) : NULL;
     return(0);
 }
 

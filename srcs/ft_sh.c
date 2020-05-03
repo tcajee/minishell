@@ -17,28 +17,24 @@ int    exec_line(char *line, char **argv, char ***envv)
 
     if (!argv || !argv[0] || !argv[0][0] || argv[0][0] == '\n')
         return (1);
-    /* (void)(envv); */
+    else if ((ft_strcmp(argv[0], "echo") == 0))
+        exec_echo(argv, line, *envv);
     /* else if (ft_strcmp(argv[0], "cd") == 0) */
     /*     exec_cd(argv, *envv); */
-    /* else if ((ft_strcmp(argv[0], "echo") == 0)) */
-    /*     exec_echo(argv, line, *envv); */
-    /* else if (ft_strcmp(argv[0], "setenv") == 0) */
-    /*     exec_setenv(argv[1], argv[2], *envv); */
-    /* else if (ft_strcmp(argv[0], "env") == 0) */
-    if (ft_strcmp(argv[0], "env") == 0)
-        exec_putenv(*envv);
     /* else if (ft_strcmp(argv[0], "unsetenv") == 0) */
     /*     exec_unsetenv(argv[1], *envv); */
-    /* else if (ft_strcmp(argv[0], "exit") == 0) */
-    if (ft_strcmp(argv[0], "exit") == 0)
+    else if (ft_strcmp(argv[0], "setenv") == 0)
+        exec_setenv(argv[1], argv[2], envv);
+    else if (ft_strcmp(argv[0], "env") == 0)
+        exec_putenv(*envv);
+    else if (ft_strcmp(argv[0], "exit") == 0)
         return (0);
-    /* else if (!(get_path(argv, *envv))) */
-    /* { */
-        /* ft_putstr("\033[31m⮫ minishell: "); */
-        /* ft_putstr(argv[0]); */
-        /* ft_putstr(": command not found \033[0m\n"); */
-    /* } */
-    free(line);
+    else if (!(get_path(argv, *envv)))
+    {
+        ft_putstr("\033[31m⮫ minishell: ");
+        ft_putstr(argv[0]);
+        ft_putstr(": command not found \033[0m\n");
+    }
     return (1);
 }
 

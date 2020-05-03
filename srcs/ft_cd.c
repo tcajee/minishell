@@ -45,13 +45,13 @@ void     parse_cd(char *path, char **envv)
 
     temp = NULL;
     temp = getcwd(temp, 1024);
-    exec_setenv("OLDPWD", temp, envv);
+    exec_setenv("OLDPWD", temp, &envv);
     (temp) ? free(temp) : NULL;
     chdir(path);
     (path) ? free(path) : NULL;
     temp = NULL;
     temp = getcwd(temp, 1024);
-    exec_setenv("PWD", temp, envv);
+    exec_setenv("PWD", temp, &envv);
     (temp) ? free(temp) : NULL;
 }
 

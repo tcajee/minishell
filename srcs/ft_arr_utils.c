@@ -29,9 +29,6 @@ char    **arr_dup(char **array)
         while (++i < len)
             new_array[i] = ft_strdup(array[i]);
         new_array[i] = NULL;
-
-        /* arr_del(array); */
-
         return (new_array);
     }
     return (NULL);
