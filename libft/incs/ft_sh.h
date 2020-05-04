@@ -44,9 +44,9 @@ void    exec_exit(char *line, char **argv, char **env);
 
 // Echo
 char    *ft_quotes(char *str);
-void    parse_echo(char *input);
 void    check_env_var(char *arg, char **env);
 void    exec_echo(char **argv, char *line, char **env);
+int    parse_echo(char *line);
 
 // Path
 int     check_path(char *bin, struct stat s_stat);

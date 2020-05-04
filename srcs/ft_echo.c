@@ -30,26 +30,59 @@ void    echo_env(char *arg, char **env)
     }
 }
 
+int   parse_echo(char *line)
+{
+    int     i;
+
+    i = 4;
+    if (!ft_strchr(line, '"') && !ft_strchr(line, '\''))
+        return (0);
+    while (line[i])
+    {
+        if (line[i] == '\'' && line[i + 1])
+        {
+            while (line[i + 1] && line[i + 1] != '\'')
+            {
+                ft_putchar(line[i + 1]);
+                i++;
+            }
+        }
+        else if (line[i] == '"' && line[i + 1])
+        {
+            while (line[i + 1] && line[i + 1] != '"')
+            {
+                ft_putchar(line[i + 1]);
+                i++;
+            }
+        }
+        i++;
+    }
+    ft_putstr("\n");
+    return (1);
+}
+
 void    exec_echo(char **argv, char * line, char **env)
 {
     int k;
     int i;
 
-    (void)(line);
+    /* (void)(line); */
 
     k = 1;
     i = 0;
     if (!argv[k])
         ft_putstr("\n");
-    while (argv[k])
+    else if (!parse_echo(line))
     {
-        if (argv[k][i] == '$')
-            echo_env(argv[k], env);
-        else
-            /* parse_echo(argv[k]); */
-            ft_putstr(argv[k]);
-        if (argv[++k])
-            ft_putstr(" ");
+        while (argv[k])
+        {
+            if (argv[k][i] == '$')
+                echo_env(argv[k], env);
+            else
+                ft_putstr(argv[k]);
+            if (argv[++k])
+                ft_putstr(" ");
+        }
         ft_putstr("\n");
     }
 }

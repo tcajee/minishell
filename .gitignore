@@ -4,6 +4,8 @@ mini_fifo
 minishell
 *.log
 *.log*
+nope
+test_*
 
 # Prerequisites 
 *.d
