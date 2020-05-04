@@ -12,7 +12,7 @@
 
 #include "../libft/incs/libft.h"
 
-char    *parse_vars(char *temp, char *start, char **envv)
+char    *parse_vars(char *temp, char *str, char **envv)
 {
     int   i;
     char  *end;
@@ -22,11 +22,10 @@ char    *parse_vars(char *temp, char *start, char **envv)
 
     i = -1;
     out = NULL;
-    if (!(end = ft_strchr(start, ' ')))
-        end = (start[ft_strlen(start) - 1] == '\n')
-            ? &start[ft_strlen(start) - 1]
-            : &start[ft_strlen(start)];
-    key = ft_strsub(start, 0, end - start);
+    if (!(end = ft_strchr(str, ' ')))
+        end = (str[ft_strlen(str) - 1] == '\n') ? &str[ft_strlen(str) - 1]
+            : &str[ft_strlen(str)];
+    key = ft_strsub(str, 0, end - str);
     while (envv && envv[++i])
     {
         envt = ft_strsplit(envv[i], '=');

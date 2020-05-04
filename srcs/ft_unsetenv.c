@@ -28,11 +28,11 @@ char     **remove_env(char ***envv, int index)
     while (++j < len)
     {
         if (j == index)
-            continue;
+            j++;
         new[++i] = ft_strdup(temp[j]);
     }
     arr_del(temp);
-    new[i] = NULL;
+    new[++i] = NULL;
     return (new);
 }
 
