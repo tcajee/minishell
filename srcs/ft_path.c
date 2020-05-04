@@ -92,6 +92,8 @@ int	get_path(char **argv, char **env)
         if (!(ft_strncmp(env[i], "PATH", 4)))
             path = ft_strsplit(ft_strchr(env[i], '=') + 1, ':');
     }
+    if (!path && (!ft_strncmp(argv[0], "/bin", 4) || !ft_strncmp(argv[0], "/usr/bin", 8)))
+        path = ft_strsplit("/bin:/usr/bin", ':');
     return (find_path(argv, env, path));
 }
 
