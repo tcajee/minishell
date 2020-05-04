@@ -19,10 +19,10 @@ int    exec_line(char *line, char **argv, char ***envv)
         return (1);
     else if ((ft_strcmp(argv[0], "echo") == 0))
         exec_echo(argv, line, *envv);
-    /* else if (ft_strcmp(argv[0], "cd") == 0) */
-    /*     exec_cd(argv, *envv); */
-    /* else if (ft_strcmp(argv[0], "unsetenv") == 0) */
-    /*     exec_unsetenv(argv[1], *envv); */
+    else if (ft_strcmp(argv[0], "cd") == 0)
+        exec_cd(argv, *envv);
+    else if (ft_strcmp(argv[0], "unsetenv") == 0)
+        exec_unsetenv(argv[1], envv);
     else if (ft_strcmp(argv[0], "setenv") == 0)
         exec_setenv(argv[1], argv[2], envv);
     else if (ft_strcmp(argv[0], "env") == 0)

@@ -29,14 +29,14 @@ void    parse_cd(char *path, char **env);
 // Setenv
 void    exec_putenv(char **env);
 void    push_env(char **envv, int index, int len);
-char **add_env(char ***envv, char *key, char *value, int len);
+char    **add_env(char ***envv, char *key, char *value, int len);
 int     check_env(char **envv, char *key, char *value);
 void    replace_env(char **envv, char *key, char *value, int index);
 void    exec_setenv(char *key, char *value, char ***envv);
 
 // Unsetenv
-int     remove_env(char **tab, char *elem);
-void    exec_unsetenv(char *arg, char **env);
+char    **remove_env(char ***envv, int index);
+void    exec_unsetenv(char *arg, char ***env);
 
 // Exec
 int    exec_line(char *line, char **argv, char ***env);

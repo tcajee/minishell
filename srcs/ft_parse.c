@@ -36,8 +36,9 @@ char    *parse_vars(char *temp, char *start, char **envv)
         if (out)
             break;
     }
-    (!out) ? out = temp : free(temp);
+    (!out) ? out = ft_strdup(temp) : NULL;
     (key) ? free(key) : NULL;
+    (temp) ? free(temp) : NULL;
     return (out);
 }
 
@@ -47,7 +48,7 @@ char   *parse_line(char *line, char **envv)
     char    *temp;
 
     i = 0;
-    temp = ft_strnew(1);
+    temp = ft_strnew(0);
     while (line[i])
     {
         if (line[i] == '$' && line[i + 1] && !ft_isspace(line[i + 1]))

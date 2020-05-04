@@ -61,7 +61,7 @@ void     exec_cd(char **argv, char **envv)
     char    *path;
     char    link[PATH_MAX];
 
-    path = ft_strnew(1);
+    path = ft_strnew(0);
     if (argv[2])
         ft_putstr("\033[31m⮫ minishell: cd: too many arguments\033[0m\n");
     else if (!argv[1] || (ft_strcmp(argv[1], "--") == 0))
@@ -74,10 +74,12 @@ void     exec_cd(char **argv, char **envv)
     {
         readlink(argv[1], ft_memset(link, 0, PATH_MAX), PATH_MAX);
         temp = ft_strsub(argv[1], 0, (ft_strrchr(argv[1], '/') - argv[1] + 1 ));
+        (path) ? free(path) : NULL;
         path = ft_strjoin(temp, link);
         (temp) ? free(temp) : NULL;
     }
     else if (check_cd(argv[1]) == 1)
         path = ft_strdup(argv[1]);
     (path[0] && !argv[2]) ? parse_cd(path, envv) : NULL;
+    (path) ? free(path) : NULL;
 }

@@ -12,39 +12,55 @@
 
 #include "../libft/incs/libft.h"
 
-int     remove_env(char **envv, char *elem)
+char     **remove_env(char ***envv, int index)
 {
-    int i;
-    int n;
-    /* int len; */
+    int     i;
+    int     j;
+    int     len;
+    char    **temp;
+    char    **new;
 
     i = -1;
-    if (!elem)
-        return (-1);
-    n = ft_strlen(elem);
-    /* len = arr_len(envv); */
-    while (envv[++i])
+    j = -1;
+    temp = *envv;
+    len = arr_len(temp) - 1;
+    new = (char**)malloc(sizeof(char *) * (len + 1));
+    while (++j < len)
     {
-        if (!ft_strncmp(envv[i], elem, n))
-        {
-            ft_strdel(&envv[i--]);
-            while (envv[i++])
-                envv[i] = envv[i + 1];
-            envv[i] = NULL;
-            break;
-        }
+        if (j == index)
+            continue;
+        new[++i] = ft_strdup(temp[j]);
     }
-    return (0);
+    arr_del(temp);
+    new[i] = NULL;
+    return (new);
 }
 
-void    exec_unsetenv(char *arg, char **env)
+void    exec_unsetenv(char *arg, char ***envv)
 {
-    if (remove_env(env, arg) < 0)
+    int i;
+    int     len;
+    char    **temp;
+
+    i = -1;
+    temp = *envv;
+    if (!arg)
         ft_putstr("\033[31m⮫ minishell: unsetenv: not enough args\033[0m\n");
-    else if (!remove_env(env, arg))
+    else
     {
-        ft_putstr("\033[31m⮫ minishell: unsetenv: ");
-        ft_putstr(arg);
-        ft_putstr(": variable not found\033[0m\n");
+        len = ft_strlen(arg);
+        while (temp[++i])
+        {
+            if (!ft_strncmp(temp[i], arg, len))
+                break;
+        }
+        if (!temp[i])
+        {
+            ft_putstr("\033[31m⮫ minishell: unsetenv: ");
+            ft_putstr(arg);
+            ft_putstr(": variable not found\033[0m\n");
+        }
+        else
+            *envv = remove_env(envv, i);
     }
 }
