@@ -18,10 +18,7 @@ void    exec_putenv(char **env)
 
     i = 0;
     while (env[i])
-    {
-        ft_putstr(env[i++]);
-        ft_putstr("\n");
-    }
+        ft_putendl(env[i++]);
 }
 
 void     replace_env(char **envv, char *key, char *value, int index)

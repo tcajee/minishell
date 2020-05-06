@@ -102,24 +102,9 @@ int	get_path(char **argv, char **envv)
             ? ft_strdup(argv[0])
             : create_path(path[i], argv[0]);
 
-        /* ft_putendl("\033[31m- get_path:"); */
-        /* ft_putstr("argv[0]	["); */
-        /* ft_putstr(argv[0]); */
-        /* ft_putendl("]"); */
-        /* ft_putstr("path[i]	["); */
-        /* ft_putstr(path[i]); */
-        /* ft_putendl("]"); */
-        /* ft_putstr("bin	["); */
-        /* ft_putstr(bin); */
-        /* ft_putendl("]"); */
-        /* ft_putstr("\033[0m\n"); */
-
         status = check_path(ft_strdup(bin));
         if (!status || status == -1)
-        {
-            /* (bin) ? free(bin) : NULL; */
             continue;
-        }
         else
         {
             (path) ? arr_del(path) : NULL;
