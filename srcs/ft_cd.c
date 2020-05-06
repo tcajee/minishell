@@ -62,9 +62,7 @@ void     exec_cd(char **argv, char **envv)
     char    link[PATH_MAX];
 
     path = NULL;
-    if (argv[2])
-        ft_putstr("\033[31m⮫ minishell: cd: too many arguments\033[0m\n");
-    else if (!argv[1] || (ft_strcmp(argv[1], "--") == 0))
+    if (!argv[1] || (ft_strcmp(argv[1], "--") == 0))
         path = parse_vars(ft_strnew(0), "HOME", envv);
     else if (ft_strcmp(argv[1], "-") == 0)
         path = parse_vars(ft_strnew(0), "OLDPWD", envv);
@@ -79,5 +77,5 @@ void     exec_cd(char **argv, char **envv)
     }
     else if (check_cd(argv[1]) == 1)
         path = ft_strdup(argv[1]);
-    (!argv[2]) ? parse_cd(path, envv) : NULL;
+    (path) ? parse_cd(path, envv) : NULL;
 }

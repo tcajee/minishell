@@ -49,10 +49,10 @@ void    exec_echo(char **argv, char *line, char **env);
 int    parse_echo(char *line);
 
 // Path
-int     check_path(char *bin, struct stat s_stat);
+int     check_path(char *bin);
 int     get_path(char **argv, char **env);
-int     exec_path(char **temp, char *path, char **args, char **env);
-int     find_path(char **argv, char **env, char **path);
+int     exec_path(char *path, char **args, char **env);
+int     find_path(char **argv, char **env, char *path);
 
 // Parsing
 char    *parse_quotes(char *line);

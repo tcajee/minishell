@@ -17,10 +17,15 @@ int    exec_line(char *line, char **argv, char ***envv)
 
     if (!argv || !argv[0] || !argv[0][0] || argv[0][0] == '\n')
         return (1);
-    else if ((ft_strcmp(argv[0], "echo") == 0))
+    else if (ft_strcmp(argv[0], "echo") == 0)
         exec_echo(argv, line, *envv);
-    else if (ft_strcmp(argv[0], "cd") == 0)
-        exec_cd(argv, *envv);
+    else if ((ft_strequ(argv[0], "cd")))
+    {
+        if (argv[2] && argv[1])
+            ft_putstr("\033[31m⮫ !!!!minishell: cd: too many arguments\033[0m\n");
+        else
+            exec_cd(argv, *envv);
+    }
     else if (ft_strcmp(argv[0], "unsetenv") == 0)
         exec_unsetenv(argv[1], envv);
     else if (ft_strcmp(argv[0], "setenv") == 0)

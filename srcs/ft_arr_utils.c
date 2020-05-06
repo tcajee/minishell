@@ -49,8 +49,15 @@ void  arr_del(char **array)
     int i;
 
     i = 0;
+    if (!array)
+        return;
     while (array && array[i])
-        free(array[i++]);
-    (array) ? free(array) : NULL;
+    {
+        if (array[i])
+            free(array[i]);
+        i++;
+    }
+    if (array)
+        free(array);
     array = NULL;
 }
